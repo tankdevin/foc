@@ -1,0 +1,77 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+<!--{if auth("$classuri/add")}-->
+<!--<button data-modal='{:url("@$classuri/add")}' data-title="添加等级" class='layui-btn layui-btn-sm layui-btn-primary'>添加等级</button>-->
+<!--{/if}-->
+<!--{if auth("$classuri/del")}-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>广告级别</th>
+            <th class='text-left nowrap'>受限用户等级</th>
+            <th class='text-left nowrap'>基数</th>
+            <th class='text-left nowrap'>收益(小时)</th>
+            <th class='text-left nowrap'>可抢范围(小时)</th>
+            <th class='text-left nowrap'>排序(越小越靠前)</th>
+            <th class='text-center nowrap'>添加时间</th>
+            <th class='text-center'></th>
+            <th class='text-center'></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.title}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.user_level}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.jishu|default='暂无数据'}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.income|default='暂无数据'}</span>
+            </td>
+
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.min_grab_time|default='0'}--{$vo.max_grab_time}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.sort|default='0'}</span>
+            </td>
+
+            <td class='text-center nowrap'>
+                {$vo.add_at|date="Y-m-d H:i:s"}
+            </td>
+            <td class='text-center nowrap'>
+                {if auth("$classuri/edit")}
+                <span class="text-explode">|</span>
+                <a data-title="修改广告级别" data-modal='{:url("@$classuri/edit")}?id={$vo.id}'>编辑</a>
+                {/if}
+            </td>
+            <td></td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

@@ -1,0 +1,154 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+{if auth("$classuri/add")}
+<a data-update="1" data-action="{:url('pre_matching')}">{notempty name="$is_state"}预匹配成为正式匹配{/notempty}</a>
+{/if}
+{if auth("$classuri/del")}
+{/if}
+{/block}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单号</label>
+        <div class="layui-input-inline">
+            <input name="ordersn" value="{$Think.get.ordersn|default=''}" placeholder="订单编号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">购买账号</label>
+        <div class="layui-input-inline">
+            <input name="b_uname" value="{$Think.get.b_uname|default=''}" placeholder="购买账号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">出售账号</label>
+        <div class="layui-input-inline">
+            <input name="s_uname" value="{$Think.get.s_uname|default=''}" placeholder="出售账号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间</label>
+        <div class="layui-input-inline">
+            <input name="create_at" id='range-date' value="{$Think.get.create_at|default=''}"
+                   placeholder="请选择时间" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <!--<th class='list-table-check-td think-checkbox'>-->
+                <!--<input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'>-->
+            <!--</th>-->
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>订单号</th>
+            <th class='text-left nowrap'>购买账号</th>
+            <th class='text-left nowrap'>出售账号</th>
+            <th class='text-left nowrap'>匹配数量</th>
+            <th class='text-left nowrap'>打款凭证</th>
+            <th class='text-left nowrap'>打款地址</th>
+            <th class='text-left nowrap'>预匹配时间</th>
+            <th class='text-left nowrap'>匹配时间</th>
+            <th class='text-left nowrap'>状态</th>
+            <th class='text-left nowrap'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <!--<td class='list-table-check-td think-checkbox'>-->
+                <!--<input class="list-check-box" value='{$vo.id}' type='checkbox'/>-->
+            <!--</td>-->
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.ordersn}</span>
+            </td>
+            <!--<td class='text-left nowrap'>-->
+                <!--{if condition="$vo.type == 1"}-->
+                <!--<span class="color-red">买入</span>-->
+              <!--{if condition="$vo.status eq 1"}-->
+               <!--<a data-title="编辑用户" data-modal='{:url("$classuri/cuohe")}?id={$vo.id}'>撮合</a>-->
+              <!--{/if}-->
+                <!--{else}-->
+                <!--<span class="color-green">卖出</span>-->
+                <!--{/if}-->
+            <!--</td>-->
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.b_uname}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.s_uname}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.num}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc"><img data-tips-image src="{$vo.payimg}"></span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.payment}</span>
+            </td>
+            <td class='text-left nowrap'>
+                {notempty name="$vo.addtime7"} {$vo.addtime7|date="Y-m-d H:i:s"}{/notempty}
+            </td>
+            <td class='text-left nowrap'>
+                {notempty name="$vo.addtime"}{$vo.addtime|date="Y-m-d H:i:s"}{/notempty}
+            </td>
+            <td class='text-left nowrap'>
+                {if condition="$vo.state eq 0"}
+                <span style="color:#888888;">已匹配</span>
+                {elseif condition="$vo.state eq 1"/}
+                <span style="color:#0bb20c;">已经打款</span>
+                {elseif condition="$vo.state eq 2"/}
+                <span style="color:#0C0C0C;">已经收款</span>
+                {elseif condition="$vo.state eq 3"/}
+                <span style="color:#0e2371;">成功完成</span>
+                {elseif condition="$vo.state eq 4"/}
+                <span style="color:#0f74a8;">未打款冻结</span>
+                {elseif condition="$vo.state eq 5"/}
+                <span style="color:#00b7ee;">未收款冻结</span>
+                {elseif condition="$vo.state eq 6"/}
+                <span style="color:#000000;">后台处理</span>
+                {elseif condition="$vo.state eq 7"/}
+                <span style="color:#9c60a7;">预匹配</span>
+                {elseif condition="$vo.state eq 8"}
+                <span>投诉订单</span>
+                {elseif condition="$vo.state eq 9"}
+                <span style="color:#880000;">已撤回</span>
+                {/if}
+            </td>
+
+            <td class="text-center nowrap">
+                {if condition="$vo.state eq 4 || $vo.state eq 5"}
+                <a title="后台打款" data-modal="{:url('admin/pottrade/admincaozuo')}?oid={$vo.id}">后台打款</a>
+                <a title="后台确认收款" data-modal="{:url('admin/pottrade/adminsellok')}?oid={$vo.id}">后台打款</a>
+                {/if}
+                {if condition="$vo.state eq 7 "}
+                <a data-update="{$vo.id}" data-action="{:url('matchrecallwith')}">撤回</a>
+                {/if}
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

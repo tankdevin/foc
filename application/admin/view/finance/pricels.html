@@ -1,0 +1,75 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+<button data-modal='{:url("$classuri/edit")}' data-title="添加" class='layui-btn layui-btn-sm layui-btn-primary'>添加</button>
+<button data-update data-field='delete' data-action='{:url("$classuri/deletepri")}' class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
+{/block}
+
+{block name="content"}
+
+
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间</label>
+        <div class="layui-input-inline">
+            <input name="time" id='create_at' value="{$Think.get.time|default=''}" placeholder="请选择操作时间" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<div><span style="color:red;">注：静态钱包转区块链钱包/价格，区块链钱包转静态钱包*价格</span></div>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+    window.laydate.render({range: true, elem: '#create_at'});
+</script>
+<!-- 表单搜索 结束 -->
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>价格</th>
+            <th class='text-left nowrap'>时间</th>
+          	<th class='text-left nowrap'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--{foreach $list as $key=>$vo}-->
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.id}
+            </td>
+
+            <td class='text-left nowrap'>
+                {$vo.price}
+            </td>
+            
+            <td class='text-left nowrap'>
+               {$vo.date|get_date}
+            </td>
+          	<td class='text-left nowrap'>
+               <a data-title="编辑" data-modal='{:url("$classuri/editpri")}?id={$vo.id}'>编辑</a>
+            </td>
+        </tr>
+        <!--{/foreach}-->
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
+</form>
+{/block}

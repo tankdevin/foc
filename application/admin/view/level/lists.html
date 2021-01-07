@@ -1,0 +1,103 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+<!--{if auth("$classuri/add")}-->
+<!--<button data-modal='{:url("@$classuri/add")}' data-title="添加等级" class='layui-btn layui-btn-sm layui-btn-primary'>添加等级</button>-->
+<!--{/if}-->
+<!--{if auth("$classuri/del")}-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <!--<th class='list-table-check-td think-checkbox'>-->
+                <!--<input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'>-->
+            <!--</th>-->
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>矿机名称pos</th>
+            <th class='text-left nowrap'>最小区间</th>
+            <th class='text-left nowrap'>最大区间</th>
+            <th class='text-left nowrap'>算力比例（%）</th>
+            <th class='text-left nowrap'>推荐人奖金算力（%）</th>
+            <th class='text-left nowrap'>周期（天）</th>
+            <!--<th class='text-left nowrap'>静态收入（%）</th>-->
+            <!--<th class='text-left nowrap'>激活消耗现金积分</th>-->
+            <!--<th class='text-center nowrap'>最高算力挖矿收益</th>-->
+            <!--<th class='text-center nowrap'>享受团队总挖矿收益(%)</th>-->
+            <!--<th class='text-center nowrap'>分享挖矿系数(%)</th>-->
+            <th class='text-center nowrap'>操作</th>
+            <th class='text-left'></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <!--<td class='list-table-check-td think-checkbox'>-->
+                <!--<input class="list-check-box" value='{$vo.id}' type='checkbox'>-->
+            <!--</td>-->
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.title}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.min_teaming|default='后台设置'}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.teaming|default='后台设置'}</span>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.sl_rate|default=''}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.jt_rate|default=''}(%)
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.num|default=''}
+            </td>
+            <!--<td class='text-center nowrap'>-->
+                <!--{$vo.num|default=''}-->
+            <!--</td>-->
+
+            <!--<td class='text-center nowrap'>-->
+                <!--{$vo.mining|default=''}-->
+            <!--</td>-->
+
+            <!--<td class='text-center nowrap'>-->
+                <!--{$vo.teaming|default=''}(%)-->
+            <!--</td>-->
+
+            <!--<td class='text-center nowrap'>-->
+                <!--{$vo.coefficient|default=''}(%)-->
+            <!--</td>-->
+
+            <td class='text-center nowrap'>
+
+                {if auth("$classuri/edit")}
+                <span class="text-explode">|</span>
+                <a data-title="修改等级设置" data-modal='{:url("@$classuri/edit")}?id={$vo.id}'>编辑</a>
+                {/if}
+
+                <!--{if auth("$classuri/del")}-->
+                <!--<span class="text-explode">|</span>-->
+                <!--<a data-update="{$vo.id}" data-field='delete' data-action='{:url("$classuri/del")}'>删除</a>-->
+                <!--{/if}-->
+
+            </td>
+            <td></td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

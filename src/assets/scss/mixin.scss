@@ -1,0 +1,5 @@
+//切图峰值转换  例：width:100px/$ppr; （设计图量多少，就是 量出来的值/$ppr）
+$divide: 18.75;
+$ppr: 750px/$divide/1rem;
+$pprVal: 750/18.75;
+

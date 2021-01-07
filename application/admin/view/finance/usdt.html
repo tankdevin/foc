@@ -1,0 +1,114 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+{/block}
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">操作</label>
+        <div class="layui-input-inline">
+            <select name="field" class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value='username' {eq name="Think.get.field" value="username" }selected{/eq}>会员名</option>
+                <option value='id' {eq name="Think.get.field" value="id" }selected{/eq}>ID</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <input name="name" value="{$Think.get.name|default=''}" placeholder="请输入要查询的内容" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间</label>
+        <div class="layui-input-inline">
+            <input name="date" id='range-date' value="{$Think.get.date|default=''}"
+                   placeholder="请选择时间" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<!-- 表单搜索 结束 -->
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>用户</th>
+            <th class='text-left nowrap'>充值地址</th>
+            <th class='text-left nowrap'>数量</th>
+            <th class='text-left nowrap'>凭证</th>
+            <th class='text-left nowrap'>时间</th>
+            <th class='text-left nowrap'>状态</th>
+            <th class='text-left nowrap'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--{foreach $list as $key=>$vo}-->
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.id}
+            </td>
+            <td class='text-left nowrap'>
+                <p>用户名:{$vo['uid']|userinfo}</p>
+                <p>操作员:{$vo['adminid']|get_operation_info}</p>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.address}
+            </td>
+            <td class='text-left nowrap'>
+                <p>充值数量:{$vo['money']*1}</p>
+                <p>应付:{$vo['mum']*1}</p>
+                <p>兑换比例:{$vo['ratio']}</p>
+            </td>
+            <td class='text-left nowrap'>
+                {php} echo decode_img($vo['image']); {/php}
+            </td>
+            <td class='text-left nowrap'>
+                <p>创建时间:{$vo.create_time|addtime}</p>
+                <p>处理时间:{$vo.audit_time|addtime}</p>
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.status eq 0}
+                <span>待审核</span>
+                {elseif $vo.status eq 1}
+                <span style="color:#090">充值成功</span>
+                {elseif $vo.status eq 2}
+                <span style="color:red">已拒绝</span>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                {if auth("$classuri/zxczdetail")}
+                <span class="text-explode">|</span>
+                <a data-modal='{:url("$classuri/usdtdetail")}?id={$vo.id}' href="javascript:void(0)">详情</a>
+                {/if}
+                {if $vo.status eq 1 OR $vo.status eq 2 }
+                {else/}
+                {if auth("$classuri/zxczedit")}
+                <span class="text-explode">|</span>
+                <a data-modal='{:url("$classuri/usdtedit")}?id={$vo.id}' href="javascript:void(0)">操作</a>
+                {/if}
+                {/if}
+            </td>
+        </tr>
+        <!--{/foreach}-->
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
+</form>
+{/block}

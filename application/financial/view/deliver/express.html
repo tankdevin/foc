@@ -1,0 +1,30 @@
+<form autocomplete="off" class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{:request()->url()}" data-auto="true" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">快递公司:</label>
+        <div class="layui-input-block">
+            <div>
+                <select name="express_title" class="layui-select">
+                    {volist name="express_list" id="vi"}
+                    <option value="{$vi.id}">{$vi.express_title}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">快递单号</label>
+        <div class="layui-input-block">
+            <input  name="express_code" required="required" title="请填写快递单号" class="layui-input">
+        </div>
+    </div>
+    <input type="hidden" name="order_no" value="{$Request.get.order_no|default=''}">
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+    <script>window.form.render();</script>
+</form>

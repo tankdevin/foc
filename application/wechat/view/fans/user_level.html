@@ -1,0 +1,75 @@
+{extend name='admin@public/content'}
+
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+{include file='wechat@fans/search_inc1'}
+<!-- 表单搜索 结束 -->
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'/>
+            </th>
+
+            <!--<th class='text-left'>用户昵称</th>-->
+            <th class='text-left'>手机号</th>
+            <th class='text-left'>原级别</th>
+            <th class='text-left'>新级别</th>
+            <th class='text-left'>类型</th>
+            <th class='text-left'>升级时间</th>
+            <!--<th class='text-left'>激活时间</th>-->
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
+            </td>
+
+            <!--<td class='text-left nowrap'>-->
+                <!--{$vo.nickname|default='未设置昵称'}-->
+            <!--</td>-->
+            <td class='text-left nowrap'>
+                {$vo.phone|default='未绑定账号'}
+            </td>
+            <td class='text-left nowrap'>
+               {if condition="$vo.type eq 1"} {$vo.oldulevel|level}{else/}{$vo.oldulevel|region_level}{/if}
+            </td>
+            <td class='text-left nowrap'>
+                {if condition="$vo.type eq 1"}{$vo.upgradeLevel|level}{else/}{$vo.upgradeLevel|region_level}{/if}
+            </td>
+            <td class='text-left nowrap'>
+                {switch $vo.type }
+                {case 1}等级升级{/case}
+                {case 2}服务商升级(金额{$vo.money}){/case}
+                {/switch}
+            </td>
+            <td class='text-left nowrap'>{$vo.addtime|date="Y-m-d H:i:s"}</td>
+            <!--<td class='text-left nowrap'>{notempty name="$vo.create_jh"}{$vo.create_jh|date="Y-m-d H:i:s"}{/notempty}</td>-->
+          
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}
+
+{block name="script"}
+<!--表单初始化-->
+<script>
+    window.laydate.render({range: true, elem: '#create_at'});
+    window.form.render();
+</script>
+
+{/block}

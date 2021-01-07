@@ -1,0 +1,142 @@
+{extend name='admin@public/content'}
+{block name="button"}
+<!-- <button data-modal='{:url("$classuri/edit")}' data-title="添加矿机" class='layui-btn layui-btn-sm layui-btn-primary'>添加矿机</button> -->
+{/block}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<!-- <form autocomplete="off" class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户地址</label>
+        <div class="layui-input-inline">
+            <input name="address" placeholder="请输入用户地址" value="{$Request.get.address|default=''}"autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户推荐码</label>
+        <div class="layui-input-inline">
+            <input name="num_id" placeholder="请输入用户推荐码" value="{$Request.get.num_id|default=''}"autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">上级推荐码</label>
+        <div class="layui-input-inline">
+            <input name="fir_num_id" placeholder="请输入上级推荐码" value="{$Request.get.fir_num_id|default=''}"autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">激活状态</label>
+        <div class="layui-input-inline">
+            <select name="is_renzheng"  lay-search="">
+                <option value=''>全部</option>
+                <option value='1' {eq name="Think.get.is_renzheng" value="1" }selected{/eq}>未激活</option>
+                <option value='2' {eq name="Think.get.is_renzheng" value="2" }selected{/eq}>已激活</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时 间</label>
+        <div class="layui-input-inline">
+            <input name="create_at" id='create_at' value="{$Think.get.create_at|default=''}" placeholder="时间" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+    <style>
+        .right_label_ne{
+            float: right;
+            margin-right:20px;
+        }
+    </style>
+    <div class="clearfix"></div>
+</form> -->
+<!-- 表单搜索 结束 -->
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'/>
+            </th>
+            <th class='text-left'>ID</th>
+            <th class='text-left'>矿机总数</th>
+            <th class='text-left'>矿机库存</th>
+            <th class='text-left'>矿机价格usdt</th>
+            <th class='text-left'>矿机价格foc</th>
+            <th class='text-left'>矿机周期</th>
+            <th class='text-left'>开矿时间</th>
+            <th class='text-left'>结束时间</th>
+            <th class='text-left'>状态</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.id}
+            </td>
+            <td class='text-left nowrap'>
+            {$vo.total}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.stock}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.usdt}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.foc}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.day_num}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.start_time}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.end_time}
+            </td>
+            <td class='text-left nowrap'>
+            	{if condition="$vo.status eq 0"}
+                <span style="color:gray;">禁用中</span>
+                {elseif condition="$vo.status eq 1"/}
+                <span style="color:blue;">销售中</span>
+                {elseif condition="$vo.status eq 2"/}
+                <span style="color:green;">挖矿中</span>
+                {elseif condition="$vo.status eq 3"/}
+                <span style="color:red;">到期作废</span>
+                {/if}
+            </td>
+            <!--<td class='text-left nowrap'>{notempty name="$vo.create_jh"}{$vo.create_jh|date="Y-m-d H:i:s"}{/notempty}</td>-->
+            <td class="text-center nowrap">
+                <a title="修改" data-modal="{:url('admin/machine/edit')}?id={$vo.id}">编辑</a>
+                <!-- <a data-update="{$vo.id}" data-action="{:url('status')}?status=1">开售</a>|
+                <a data-update="{$vo.id}" data-action="{:url('status')}?status=2">开矿</a> -->
+                <!-- |<a data-update="{$vo.id}" data-action="{:url('status')}?status=0">禁用</a> -->
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}
+
+{block name="script"}
+<!--表单初始化-->
+<script>
+    window.laydate.render({range: true, elem: '#create_at'});
+    window.form.render();
+</script>
+
+{/block}

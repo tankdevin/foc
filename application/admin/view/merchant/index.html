@@ -1,0 +1,96 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+
+<!--{if auth("$classuri/del")}-->
+<button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-primary'>删除商家</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+
+<!-- 表单搜索 开始 -->
+<form autocomplete="off" class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">商家账号</label>
+        <div class="layui-input-inline">
+            <input name="title" value="{$Think.get.title|default=''}" placeholder="请输入商家名" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">登录时间</label>
+        <div class="layui-input-inline">
+            <input name="date" id='range-date' value="{$Think.get.add_at|default=''}" placeholder="请选择申请时间" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<!-- 表单搜索 结束 -->
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>商家名</th>
+            <th class='text-left nowrap'>申请人</th>
+            <th class='text-left nowrap'>手机号</th>
+            <th class='text-left nowrap'>申请时间</th>
+            <th class='text-left nowrap'>状态</th>
+            <th class='text-left nowrap'></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--{foreach $list as $key=>$vo}-->
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.title}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.userinfo.nickname|default="<span class='color-desc'>还没有设置手机号</span>"|raw}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.userinfo.phone|default="<span class='color-desc'>还没有设置手机号</span>"|raw}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.add_at}
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.status eq 0}<span class="color-green">申请中</span>{elseif $vo.status eq 1}<span class="color-desc">申请通过</span>{elseif $vo.status eq 2}<span class="color-red">已驳回</span>{/if}
+            </td>
+            <td class='text-left nowrap'>
+
+                {if $vo.status eq 0}
+                <span class="text-explode">|</span>
+                <a data-update="{$vo.id}" data-field='status' data-value='1' data-action='{:url("$classuri/resume")}'>通过</a>
+                <!--<span class="text-explode">|</span>-->
+                <!--<a data-update="{$vo.id}" data-field='status' data-value='2' data-action='{:url("$classuri/forbid")}'>驳回</a>-->
+                {/if}
+                <span class="text-explode">|</span>
+                <a data-update="{$vo.id}" data-field='delete' data-action='{:url("$classuri/del")}'>删除</a>
+            </td>
+        </tr>
+        <!--{/foreach}-->
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
+</form>
+{/block}

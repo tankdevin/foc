@@ -1,0 +1,102 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true"
+      method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">等级名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" value='{$vo.title|default=""}' required="required" title="请输入等级名称"
+                   placeholder="请输入等级名称" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" id="xianshi">
+        <label class="layui-form-label">最小团队业绩</label>
+        <div class="layui-input-block">
+            <input type="number" name="min_teaming" value='{$vo.min_teaming|default=""}' title="请输入团队业绩" placeholder="请输入团队业绩"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" id="xianshi">
+        <label class="layui-form-label">最大团队业绩</label>
+        <div class="layui-input-block">
+            <input type="number" name="teaming" value='{$vo.teaming|default=""}' title="请输入团队业绩" placeholder="请输入团队业绩"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" id="xianshi">
+        <label class="layui-form-label">算力比例(%)</label>
+        <div class="layui-input-block">
+            <input type="number" name="sl_rate" value='{$vo.sl_rate|default=""}' title="请输入算力比例" placeholder="请输入算力比例"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" id="xianshi">
+        <label class="layui-form-label">推荐人奖金算力(%)</label>
+        <div class="layui-input-block">
+            <input type="number" name="jt_rate" value='{$vo.jt_rate|default=""}' title="请输入推荐人奖金算力" placeholder="请输入推荐人奖金算力"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" id="xianshi">
+        <label class="layui-form-label">周期(天)</label>
+        <div class="layui-input-block">
+            <input type="number" name="num" value='{$vo.num|default=""}' title="请输入周期" placeholder="请输入周期"
+                   class="layui-input">
+        </div>
+    </div>
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">团队粉丝人数</label>-->
+        <!--<div class="layui-input-block">-->
+            <!--<input type="number" name="fans" value='{$vo.fans|default=""}' required="required" title="请输入团队粉丝人数"-->
+                   <!--placeholder='' class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">最低算力挖矿存放</label>-->
+        <!--<div class="layui-input-block">-->
+            <!--<input type="number" name="force" value='{$vo.force|default=""}' required="required" title="请输入最低算力挖矿存放"-->
+                   <!--placeholder="请输入最低算力挖矿存放" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">激活消耗数量</label>-->
+        <!--<div class="layui-input-block">-->
+            <!--<input type="number" name="num" value='{$vo.num|default=""}' required="required" title="请输入激活消耗数量"-->
+                   <!--placeholder="请输入激活消耗数量" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">最高算力挖矿收益</label>-->
+        <!--<div class="layui-input-block">-->
+            <!--<input type="number" name="mining" value='{$vo.mining|default=""}' required="required" title="请输入最高算力挖矿收益"-->
+                   <!--placeholder="请输入最高算力挖矿收益" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">代数</label>-->
+        <!--<div class="layui-input-block">-->
+            <!--<input type="text" name="daishu" value='{$vo.daishu|default=""}' required="required" title="代数"-->
+                   <!--placeholder="代数" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">团队奖（%）</label>-->
+        <!--<div class="layui-input-block">-->
+            <!--<input type="number" name="jt_rate" value='{$vo.jt_rate|default=""}' required="required" title="团队奖（%）"-->
+                   <!--placeholder="团队奖（%）" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+</form>

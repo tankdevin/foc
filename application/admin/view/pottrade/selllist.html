@@ -1,0 +1,138 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+{if auth("$classuri/add")}
+<button data-open='{:url("$classuri/add")}' data-title="理财产品" class='layui-btn layui-btn-sm layui-btn-primary'>添加卖单</button>
+<button data-update data-field='jzpp' data-action='{:url("$classuri/sellzhiding")}' class='layui-btn layui-btn-sm layui-btn-primary'>禁止匹配</button>
+<!--<button data-update data-field='jcjzpp' data-action='{:url("$classuri/zhiding")}' class='layui-btn layui-btn-sm layui-btn-primary'>解除禁止匹配</button>-->
+<button data-update data-field='zhiding' data-action='{:url("$classuri/sellzhiding")}' class='layui-btn layui-btn-sm layui-btn-primary'>置顶</button>
+<button data-update data-field='jczhiding' data-action='{:url("$classuri/sellzhiding")}' class='layui-btn layui-btn-sm layui-btn-primary'>解除置顶</button>
+{/if}
+{if auth("$classuri/del")}
+{/if}
+{/block}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单号</label>
+        <div class="layui-input-inline">
+            <input name="ordersn" value="{$Think.get.ordersn|default=''}" placeholder="订单编号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">会员账号</label>
+        <div class="layui-input-inline">
+            <input name="uname" value="{$Think.get.uname|default=''}" placeholder="会员账号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间</label>
+        <div class="layui-input-inline">
+            <input name="create_at" id='range-date' value="{$Think.get.create_at|default=''}"
+                   placeholder="请选择时间" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>订单号</th>
+            <!--<th class='text-left nowrap'>订单类型</th>-->
+            <th class='text-left nowrap'>账号</th>
+            <th class='text-left nowrap'>总数量</th>
+            <th class='text-left nowrap'>剩余数量</th>
+            <th class='text-left nowrap'>添加时间</th>
+            <th class='text-left nowrap'>距今时间</th>
+            <th class='text-left nowrap'>状态</th>
+            <th class='text-left nowrap'>置顶状态</th>
+            <th class='text-left nowrap'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                {if condition="$vo.state eq 1"}
+                    <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.ordersn}</span>
+            </td>
+            <!--<td class='text-left nowrap'>-->
+                <!--{if condition="$vo.type == 1"}-->
+                <!--<span class="color-red">买入</span>-->
+              <!--{if condition="$vo.status eq 1"}-->
+               <!--<a data-title="编辑用户" data-modal='{:url("$classuri/cuohe")}?id={$vo.id}'>撮合</a>-->
+              <!--{/if}-->
+                <!--{else}-->
+                <!--<span class="color-green">卖出</span>-->
+                <!--{/if}-->
+            <!--</td>-->
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.uname}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.totalnum}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.leavenum}</span>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.addtime|date="Y-m-d H:i:s"}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.addtime|format_date}
+            </td>
+            <td class='text-left nowrap'>
+                {if condition="$vo.state eq 1"}
+                <span style="color:#008800;">待匹配</span>
+                {elseif condition="$vo.state eq 2"/}
+                <span style="color:red;">匹配完成</span>
+                {elseif condition="$vo.state eq 3"}
+                <span>订单完成</span>
+                {elseif condition="$vo.state eq 4"}
+                <span>禁止匹配</span>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                {if condition="$vo.is_topping eq 0"}
+                <span style="color:brown;">否</span>
+                {elseif condition="$vo.is_topping eq 1"/}
+                <span style="color:#008800;">是</span>
+                {/if}
+            </td>
+
+            <td class='text-left nowrap'>
+                <a data-update="{$vo.id}" data-action="{:url('sellsetJz')}">{if condition="$vo.state eq 1"}禁止匹配{elseif condition="$vo.state eq 4"/}解除禁止匹配{/if}</a> &nbsp;&nbsp;&nbsp;&nbsp;
+                <a data-update="{$vo.id}" data-action="{:url('sellsetZd')}">{if condition="$vo.is_topping eq 1 && $vo.state eq 1"}取消置顶{elseif condition="$vo.is_topping eq 0 && $vo.state eq 1"/}置顶{/if}</a>
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

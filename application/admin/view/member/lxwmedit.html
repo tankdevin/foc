@@ -1,0 +1,45 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true" method="post">
+    {empty name="$info['id']"}
+    {else/}
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">留言ID</label>-->
+        <!--<div class="layui-input-block">-->
+            <!--<input readonly="readonly" disabled="disabled" name="id" value='{$info.id|default=""}' required="required" class="layui-input layui-disabled">-->
+        <!--</div>-->
+    <!--</div>-->
+    {/empty}
+    <div class="layui-form-item">
+        <label class="layui-form-label">留言内容</label>
+        <div class="layui-input-block">
+            <textarea name="content">{$info.content}</textarea>
+            <script>
+                require(['ckeditor'], function () {
+                    var editor = window.createEditor('[name="content"]');
+                });
+            </script>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">回复留言</label>
+        <div class="layui-input-block">
+            <div style="position:relative">
+                <textarea name="reply">{$info.reply}</textarea>
+                <script>
+                    require(['ckeditor'], function () {
+                        var editor = window.createEditor('[name="reply"]');
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($info['id'])}<input type='hidden' value='{$info.id}' name='id'>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

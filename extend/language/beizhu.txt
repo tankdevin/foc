@@ -1,0 +1,8 @@
+be-by   俄罗斯
+en-gb   英国
+ja-jp   日本
+ko-kr   韩国
+vi-vn   越南
+zh-cn   中国简体
+zh-hk   中国繁体
+	

@@ -1,0 +1,94 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true" method="post">
+    {empty name="$info['id']"} 
+    {else/}
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户ID</label>
+            <div class="layui-input-block">
+                <input name="id"  value="{$info['id']|default=''}"  readonly="readonly" required="required"  class="layui-input layui-disabled">  
+            </div>
+        </div>
+    {/empty}
+    <div class="layui-form-item">
+        <label class="layui-form-label">充值用户</label>
+        <div class="layui-input-block">
+            {empty name="$info['id']"}
+            {else/}
+                <input name="userid"  value="{$info['uid']|userinfo|default=''}"  readonly="readonly" required="required"  class="layui-input layui-disabled">
+            {/empty}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">充值地址</label>
+        <div class="layui-input-block">
+            <input name="address"  value="{$info['address']|default=''}"  readonly="readonly" required="required"  class="layui-input layui-disabled">  
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">充值数量(余额)</label>
+        <div class="layui-input-block">
+            <input name="num"  value="{$info['money']*1}"  readonly="readonly" required="required"  class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">兑换比例</label>
+        <div class="layui-input-block">
+            <input name="bili"  value="{$info['ratio']}"  readonly="readonly" required="required"  class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">应付</label>
+        <div class="layui-input-block">
+            <input name="mum"  value="{$info['mum']*1}"  readonly="readonly" required="required"  class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">充值凭证</label>
+        <div class="layui-input-block">
+            {php} echo decode_img($info['image']); {/php}
+        </div>
+    </div>
+    <!--<div class="layui-form-item">
+        <label class="layui-form-label">充值之前(钱包)</label>
+        <div class="layui-input-block">
+            <input name="gcscoinzq"  value="{$info['before']*1}"  readonly="readonly" required="required"  class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">充值之后(钱包)</label>
+        <div class="layui-input-block">
+            <input name="gcscoinzx"  value="{$info['before']+$info['money']*1}"  readonly="readonly" required="required"  class="layui-input layui-disabled">
+        </div>
+    </div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">创建时间</label>
+        <div class="layui-input-block">
+            <input name="addtime"  value="{$info['create_time']|addtime|default=''}"  readonly="readonly" required="required"  class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">完成时间</label>
+        <div class="layui-input-block">
+            <input name="endtime"  value="{$info['audit_time']|addtime|default=''}"  readonly="readonly" required="required"  class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">操作员</label>
+        <div class="layui-input-block">
+            <input name="adminid"  value="{$info['adminid']|get_operation_info|default=''}"  readonly="readonly" required="required"  class="layui-input layui-disabled">
+        </div>
+    </div>
+    {empty name="$info['content']"}
+    {else/}
+        <div class="layui-form-item">
+            <label class="layui-form-label">拒绝原因</label>
+            <div class="layui-input-block">
+                <textarea name="content" required="required" class="layui-input layui-disabled">{$info.content|default=''}</textarea>
+                <script>
+                    require(['ckeditor'], function () {
+                        var editor = window.createEditor('[name="content"]');
+                    });
+                </script>
+            </div>
+        </div>
+    {/empty}
+</form>

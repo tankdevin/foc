@@ -1,0 +1,52 @@
+<?php
+$_['userUsdt']=array(
+        "1"=>"Purchase POS miner, deduct NAC",
+        "2"=> "Purchase POS mining machine, increase the number of computing power",
+        "3"=> "Recommended computing power increased",
+        "4"=> "The number of Poe orders is",
+        "5"=> "usdt，deduction",
+        "6"=> "Purchase Poe mining machine to increase computing power",
+        "7"=> "Cancel the bill",
+        "8"=> "Return to NAC",
+        "9"=>"See point bonus calculation power increased",
+        "10"=>"POS miner",
+        "11"=>"NAC, end of deduction",
+        "12"=>"NAC releases NAC every day",
+        "13"=>"POS computing power",
+        "14"=>"Mining out, NAC",
+        "15"=>"Poe miner",
+        "16"=>"$end, net of computing power",
+        "17"=>"usdt，Return to NAC",
+        "18"=>"Mining NAC by Poe",
+        "19"=>"POS mining machine finished, direct calculation force deduction",
+        "20"=>"Poe mining machine finished, direct calculation force deduction",
+        "21"=>"The exchange pays the bill",
+        "22"=>"Matching sales order",
+        "23"=>"Unit Price",
+        "24"=>"Increase NAC",
+        "25"=>"Exchange order",
+        "26"=>"Match the bill",
+        "27"=>"Add usdt",
+        "28"=>"Cancel sales order",
+        "29"=>"Service Charge",
+        "30"=>"Actual return NAC",
+        "31"=>"Cancel the bill",
+        "32"=>"Actual return to usdt",
+        "33"=>"Exchange linked bill NAC",
+        "34"=>"Deduct usdt",
+        "35"=>"NAC deducted from exchange linked sales list",
+        "36"=>"Handling charge NAC",
+        "37"=>"usdt",
+        "38"=>"The balance is withdrawn to the wallet, and the number of usdt is reduced",
+        "39"=>"Reduce the number of usdts",
+        "40"=>"Increase the number of usdt",
+        "41"=>"Reduce the number of NACs",
+        "42"=>"Increase the number of NACs",
+        "43"=>"Rejected successfully, withdraw usdt",
+);
+
+
+
+
+
+

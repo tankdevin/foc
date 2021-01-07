@@ -1,0 +1,125 @@
+{extend name='admin@public/content'}
+{block name="button"}
+{/block}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <select name="hstatus" class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value='' {empty name="Think.get.hstatus" }selected{
+                /empty}>全部状态</option>
+                <option value='0' {eq name="Think.get.hstatus" value="0" }selected{
+                /eq}>未回复</option>
+                <option value='1' {eq name="Think.get.hstatus" value="1" }selected{
+                /eq}>已回复</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">操作</label>
+        <div class="layui-input-inline">
+            <select name="field" class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value='username' {eq name="Think.get.field" value="username" }selected{
+                /eq}>回复人</option>
+                <option value='truename' {eq name="Think.get.field" value="truename" }selected{
+                /eq}>用户名(留言用户)</option>
+                <!--<option value='theme' {eq name="Think.get.field" value="theme" }selected{-->
+                <!--/eq}>留言标题</option>-->
+                <!--<option value='contact' {eq name="Think.get.field" value="contact" }selected{-->
+                <!--/eq}>联系方式</option>-->
+                <option value='id' {eq name="Think.get.field" value="id" }selected{
+                /eq}>ID</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <input name="name" value="{$Think.get.name|default=''}" placeholder="请输入要查询的内容" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<!-- 表单搜索 结束 -->
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>回复人</th>
+            <th class='text-left nowrap'>用户名(留言用户)</th>
+            <th class='text-left nowrap'>图片</th>
+            <th class='text-left nowrap'>留言内容</th>
+            <!--<th class='text-left nowrap'>联系方式</th>-->
+            <th class='text-left nowrap'>时间</th>
+            <th class='text-left nowrap'>状态</th>
+            <th class='text-left nowrap'></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--{foreach $list as $key=>$vo}-->
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.id}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo['adminid']|get_operation_info}
+            </td>
+            <td class='text-left nowrap'> 
+                {$vo['userid']|userinfo}
+            </td>
+
+            <td class='text-left nowrap'>
+                <img data-tips-image style="width: 30px;height: 20px;" src="{$vo.image}" alt="">
+            </td>
+
+            <td class='text-left nowrap'>
+                {$vo['usernote']|mb_suber}...
+            </td>
+            <td class='text-left nowrap'>
+               <p>留言时间:{$vo['tjtime']|addtime}</p>
+               <p>回复时间:{$vo['hftime']|addtime}</p>
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.hstatus eq 0}
+                    <span class="color-red">未回复</span>
+                {elseif $vo.hstatus eq 1}
+                    <span class="color-green">已回复</span>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.hstatus eq 0}
+                    {if auth("$classuri/messagedit")}
+                        <span class="text-explode">|</span>
+                        <a data-title="留言回复" data-modal='{:url("$classuri/messagedit")}?id={$vo.id}'>回复</a>
+                    {/if}
+                {else/}
+                {/if}
+                {if auth("$classuri/messageinfo")}
+                    <span class="text-explode">|</span>
+                    <a data-title="留言详情" data-modal='{:url("$classuri/messageinfo")}?id={$vo.id}'>详情</a>
+                {/if}
+            </td>
+        </tr>
+        <!--{/foreach}-->
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
+</form>
+{/block}

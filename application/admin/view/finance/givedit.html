@@ -1,0 +1,41 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="{:request()->url()}" data-auto="true"
+      method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员账户</label>
+        <div class="layui-input-block">
+            <input type="text" autofocus name="username" value='' title="请输入会员账户" placeholder="请输入会员账户"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">赠送币种</label>
+        <div class='layui-input-block'>
+            <select name="coin" class="layui-select">
+                {foreach :coin() as $k => $v}
+                <option value='{$k}' {eq name="Think.get.type" value="$k" }selected{/eq}>{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">赠送金额</label>
+        <div class="layui-input-block">
+            <input type="number" autofocus name="num" value='' title="请输入赠送金额" placeholder="请输入赠送金额" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">赠送方式</label>
+        <div class='layui-input-block'>
+            <select name="type" class="layui-select">
+                <option value="mycz">充值</option>
+                <option value="mykk">扣款</option>
+            </select>
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>确定赠送</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消赠送吗？" data-close>取消赠送</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

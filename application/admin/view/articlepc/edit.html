@@ -1,0 +1,106 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true" method="post">
+    {empty name="$info['id']"}
+    {else/}
+        <div class="layui-form-item">
+            <label class="layui-form-label">文章ID</label>
+            <div class="layui-input-block">
+                <input readonly="readonly" disabled="disabled" name="id" value='{$info.id|default=""}' required="required" class="layui-input layui-disabled">
+            </div>
+        </div>
+    {/empty}
+    <div class="layui-form-item">
+        <label class="layui-form-label">文章标题</label>
+        <div class="layui-input-block">
+            <input  name="title" value='{$info.title|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">文章类型</label>
+        <div class="layui-input-block">
+            <div>
+                {empty name="$info['id']"}
+                    <select name="type" class="layui-select">
+
+                        <option value="noticle">公告</option>
+                        <option value="adout">关于系统</option>
+                        <option value="posabout">pos挖矿</option>
+                        <option value="poeabout">poe挖矿</option>
+                        <option value="rhcz">如何创作</option>
+                        <option value="rhwk">如何挖矿</option>
+                        <option value="czsc">充值手册</option>
+                        <option value="jygz">交易规则</option>
+                        <option value="business">首页轮播图</option>
+                        <option value="news_banner">推广模板</option>
+                        <option value="faq">新闻</option>
+                    </select>
+                {else/}
+                    <select name="type" class="layui-select">
+                        <option value="noticle" {if $info['type'] eq 'noticle'}selected="selected"{/if}>公告</option>
+                        <option value="business" {if $info['type'] eq 'business'}selected="selected"{/if}>首页轮播图</option>
+                        <option value="news_banner" {if $info['type'] eq 'news_banner'}selected="selected"{/if}>推广模板</option>
+                        <option value="faq" {if $info['type'] eq 'faq'}selected="selected"{/if}>新闻</option>
+                        <option value="about" {if $info['type'] eq 'about'}selected="selected"{/if}>关于系统</option>
+                        <option value="posabout" {if $info['type'] eq 'posabout'}selected="selected"{/if}>pos挖矿</option>
+                        <option value="poeabout" {if $info['type'] eq 'poeabout'}selected="selected"{/if}>poe挖矿</option>
+                        <option value="rhcz" {if $info['type'] eq 'rhcz'}selected="selected"{/if}>如何创作</option>
+                        <option value="rhwk" {if $info['type'] eq 'rhwk'}selected="selected"{/if}>如何挖矿</option>
+                        <option value="czsc" {if $info['type'] eq 'czsc'}selected="selected"{/if}>充值手册</option>
+                        <option value="jygz" {if $info['type'] eq 'jygz'}selected="selected"{/if}>交易规则</option>
+
+                    </select>
+                {/empty}
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">上传图片</label>
+        <div class="layui-input-block">
+            <div class='col-sm-8'>
+                <img data-tips-image class='col-sm-8' src="{$info.img|default=''}"/>
+                <input type="hidden" name="img"  onchange="$(this).prev('img').attr('src', this.value)"
+                       value="{$info.img|default=''}" class="layui-input">
+                <a class="btn btn-info" style="float: right" data-file="one" data-field="img ">上传图片</a>
+                <p>建议上传尺寸为500x300px</p>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">文章内容</label>
+        <div class="layui-input-block">
+            <div style="position:relative">
+                <textarea name="content">{$info.content|default=''}</textarea>
+                <script>
+                    require(['ckeditor'], function () {
+                        var editor = window.createEditor('[name="content"]');
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <div>
+                {empty name="$info['id']"}
+                    <select name="status" class="layui-select">
+                        <option value="1">启用</option>
+                        <option value="0">禁用</option>
+                    </select>
+                {else/}
+                    <select name="status" class="layui-select">
+                        <option value="1" {if $info['status'] eq 1}selected="selected"{/if}>启用</option>
+                        <option value="0" {if $info['status'] eq 0}selected="selected"{/if}>禁用</option>
+                    </select>
+                {/empty}
+            </div>
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($info['id'])}<input type='hidden' value='{$info.id}' name='id'>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

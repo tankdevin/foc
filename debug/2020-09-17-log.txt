@@ -1,0 +1,13 @@
+
+<------------------------------------------------------------------------
+2020-09-17 18:43:40
+0-SELECT COUNT(*) AS tp_count FROM `store_member` WHERE  ( find_in_set(321,all_leader) )  AND `is_zhujici` = 2  AND `account_money` >= 100 LIMIT 1
+Array
+(
+    [file] => /www/wwwroot/www.ntf.com/application/apiv1/controller/Wang.php
+    [line] => 146
+    [function] => prf
+    [class] => app\apiv1\controller\Wang
+    [type] => ->
+)
+------------------------------------------------------------------------>

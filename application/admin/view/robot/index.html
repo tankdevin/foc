@@ -1,0 +1,136 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+{if auth("$classuri/add")}
+<button data-open='{:url("$classuri/edit")}' data-title="理财产品" class='layui-btn layui-btn-sm layui-btn-primary'>添加机器人</button>
+{/if}
+{if auth("$classuri/del")}
+{/if}
+{/block}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单号</label>
+        <div class="layui-input-inline">
+            <input name="ordersn" value="{$Think.get.ordersn|default=''}" placeholder="订单编号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">会员账号</label>
+        <div class="layui-input-inline">
+            <input name="uname" value="{$Think.get.uname|default=''}" placeholder="会员账号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">分类</label>
+        <div class="layui-input-inline">
+            <select name="state"    class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value=''>请选择</option>
+                <option value='1' {eq name="Think.get.state" value="1" }selected{/eq}>待匹配</option>
+                <option value='2' {eq name="Think.get.state" value="2" }selected{/eq}>匹配完成</option>
+                <option value='3' {eq name="Think.get.state" value="3" }selected{/eq}>订单完成</option>
+                <option value='4' {eq name="Think.get.state" value="4" }selected{/eq}>禁止匹配</option>
+
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间</label>
+        <div class="layui-input-inline">
+            <input name="create_at" id='range-date' value="{$Think.get.create_at|default=''}"
+                   placeholder="请选择时间" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <!--<th class='list-table-check-td think-checkbox'>-->
+                <!--&lt;!&ndash;<input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'>&ndash;&gt;-->
+            <!--</th>-->
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>卖家地址</th>
+            <!--<th class='text-left nowrap'>订单类型</th>-->
+            <th class='text-left nowrap'>买家地址</th>
+            <th class='text-left nowrap'>交易币</th>
+            <th class='text-left nowrap'>法币</th>
+            <th class='text-left nowrap'>最低区间</th>
+            <th class='text-left nowrap'>最高区间</th>
+            <th class='text-left nowrap'>随机最小数量</th>
+            <th class='text-left nowrap'>随机最大数量</th>
+            <th class='text-left nowrap'>最小频率(秒)</th>
+            <th class='text-left nowrap'>最大频率(秒)</th>
+            <th class='text-left nowrap'>添加时间</th>
+            <th class='text-left nowrap'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <!--<td class='list-table-check-td think-checkbox'>-->
+               <!--<input class="list-check-box" value='{$vo.id}' type='checkbox'/>-->
+            <!--</td>-->
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.buy_user_id|useraddress}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.sell_user_id|useraddress}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.currency_id|currencyad}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">USDT</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.min_price}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.max_price}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.min_number}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.max_number}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.min_need_second}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.max_need_second}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.create_time|date="Y-m-d H:i:s"}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="text-explode">|</span>
+                <a data-title="编辑" data-modal='{:url("$classuri/edit")}?id={$vo.id}'>编辑</a> |
+                <a data-update="{$vo.id}" data-action="{:url('qiyong')}">{if condition="$vo.is_start eq 1"}启用{elseif condition="$vo.is_start eq 0"/}禁止{/if}</a>
+            </td>
+
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

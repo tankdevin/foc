@@ -1,0 +1,94 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+{/block}
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">币种</label>
+        <div class="layui-input-inline">
+            <select name="type" class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value='' {empty name="Think.get.type" }selected{/empty}>全部币种</option>
+                {foreach :coin() as $k => $v}
+                <option value='{$k}' {eq name="Think.get.type" value="$k" }selected{/eq}>{$v}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">操作</label>
+        <div class="layui-input-inline">
+            <select name="field" class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value='username' {eq name="Think.get.field" value="username" }selected{/eq}>会员名</option>
+                <option value='id' {eq name="Think.get.field" value="id" }selected{/eq}>ID</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <input name="name" value="{$Think.get.name|default=''}" placeholder="请输入要查询的内容" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<!-- 表单搜索 结束 -->
+<style>
+    table tr.red{
+        background: #fdaeae;
+    }
+    table tr.red td.rred{
+        background: #ffd1cd;
+    }
+</style>
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <th>用户名</th>
+        {foreach name=":coin()" key="key" item="vv"}
+        {if $key!='cpf_calc'}
+        <th>{$vv}</th>
+        {/if}
+        {/foreach}
+        </thead>
+        <tbody>
+        {php}$ex = [];{/php}
+        {foreach name="list" key="k" item="v"}
+        <tr class="{$k}">
+            <td>{$k}</td>
+            {foreach name=":coin()" key="key" item="vv"}
+            {if $key!='cpf_calc'}
+                <td class="{$key}">
+                    <div class="box">
+                        <div>当前：{$v[$key]['current']*1}</div>
+                        <div>记录：{$v[$key]['calc']*1}</div>
+                        <div>异常：{if $v[$key]['current'] > $v[$key]['calc']}{$v[$key]['current']-$v[$key]['calc']}{else/}{$v[$key]['calc']-$v[$key]['current']}{/if}</div>
+                        <div>状态：{if $v[$key]['current']-$v[$key]['calc'] < 0.001}<span class="color-green">正常</span>{else/}{php}$ex[$k]['key'][] = $key;{/php}<span class="color-red">异常</span>{/if}</div>
+                    </div>
+                </td>
+            {/if}
+            {/foreach}
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
+</form>
+<script>
+    var ex = JSON.parse('{php}echo json_encode($ex);{/php}');
+    for(v in ex){
+        $("table tr." + v).addClass('red');
+        for(vv in ex[v]['key']){
+            $("table tr." + v).find('td.' + ex[v]['key'][vv]).addClass('rred');
+        }
+    }
+</script>
+{/block}

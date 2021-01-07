@@ -1,0 +1,181 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true" method="post">
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">买方地址</label>
+        <div class="layui-input-block">
+            <input  name="buy_user_id" value='{$info.buy_user_id|useraddress}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">卖方地址</label>
+        <div class="layui-input-block">
+            <input  name="sell_user_id" value='{$info.sell_user_id|useraddress}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">交易币
+        </label>
+        <div class="layui-input-block">
+            <select name="currency_id" class="layui-select">
+                <option value="1"> FOC</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">法币</label>
+        <div class="layui-input-block">
+            <select name="legal_id" class="layui-select">
+                <option value="4"> USDT</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">涨幅权重</label>
+        <div class="layui-input-block">
+            <div>
+                {empty name="$info['id']"}
+                    <select name="up_weight" class="layui-select">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                {else/}
+                    <select name="up_weight" class="layui-select">
+                        <option value="0" {if $info['up_weight'] eq '0'}selected="selected"{/if}>0</option>
+                        <option value="1" {if $info['up_weight'] eq '1'}selected="selected"{/if}>1</option>
+                        <option value="2" {if $info['up_weight'] eq '2'}selected="selected"{/if}>2</option>
+                        <option value="3" {if $info['up_weight'] eq '3'}selected="selected"{/if}>3</option>
+                        <option value="4" {if $info['up_weight'] eq '4'}selected="selected"{/if}>4</option>
+                        <option value="5" {if $info['up_weight'] eq '5'}selected="selected"{/if}>5</option>
+                        <option value="6" {if $info['up_weight'] eq '6'}selected="selected"{/if}>6</option>
+                        <option value="7" {if $info['up_weight'] eq '7'}selected="selected"{/if}>7</option>
+                        <option value="8" {if $info['up_weight'] eq '8'}selected="selected"{/if}>8</option>
+                        <option value="9" {if $info['up_weight'] eq '9'}selected="selected"{/if}>9</option>
+                        <option value="10" {if $info['up_weight'] eq '10'}selected="selected"{/if}>10</option>
+
+                    </select>
+                {/empty}
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">跌幅权重</label>
+        <div class="layui-input-block">
+            <div>
+                {empty name="$info['id']"}
+                <select name="down_weight" class="layui-select">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                {else/}
+                <select name="down_weight" class="layui-select">
+                    <option value="0" {if $info['down_weight'] eq '0'}selected="selected"{/if}>0</option>
+                    <option value="1" {if $info['down_weight'] eq '1'}selected="selected"{/if}>1</option>
+                    <option value="2" {if $info['down_weight'] eq '2'}selected="selected"{/if}>2</option>
+                    <option value="3" {if $info['down_weight'] eq '3'}selected="selected"{/if}>3</option>
+                    <option value="4" {if $info['down_weight'] eq '4'}selected="selected"{/if}>4</option>
+                    <option value="5" {if $info['down_weight'] eq '5'}selected="selected"{/if}>5</option>
+                    <option value="6" {if $info['down_weight'] eq '6'}selected="selected"{/if}>6</option>
+                    <option value="7" {if $info['down_weight'] eq '7'}selected="selected"{/if}>7</option>
+                    <option value="8" {if $info['down_weight'] eq '8'}selected="selected"{/if}>8</option>
+                    <option value="9" {if $info['down_weight'] eq '9'}selected="selected"{/if}>9</option>
+                    <option value="10" {if $info['down_weight'] eq '10'}selected="selected"{/if}>10</option>
+
+                </select>
+                {/empty}
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">初始价格</label>
+        <div class="layui-input-block">
+            <input  name="init_price" value='{$info.init_price|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">价格区间下限</label>
+        <div class="layui-input-block">
+            <input  name="min_price" value='{$info.min_price|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">价格区间上限</label>
+        <div class="layui-input-block">
+            <input  name="max_price" value='{$info.max_price|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">每次涨跌最小价格</label>
+        <div class="layui-input-block">
+            <input  name="up_price" value='{$info.up_price|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">每次涨跌最大价格</label>
+        <div class="layui-input-block">
+            <input  name="down_price" value='{$info.down_price|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">数量随机下限</label>
+        <div class="layui-input-block">
+            <input  name="min_number" value='{$info.min_number|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">数量随机上限</label>
+        <div class="layui-input-block">
+            <input  name="max_number" value='{$info.max_number|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">价格精度</label>
+        <div class="layui-input-block">
+            <input  name="price_precision" value='{$info.price_precision|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">数量精度</label>
+        <div class="layui-input-block">
+            <input  name="num_precision" value='{$info.num_precision|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最小下单频率</label>
+        <div class="layui-input-block">
+            <input  name="min_need_second" value='{$info.min_need_second|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+    <label class="layui-form-label">最大下单频率</label>
+    <div class="layui-input-block">
+        <input  name="max_need_second" value='{$info.max_need_second|default=""}' required="required" class="layui-input">
+    </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($info['id'])}<input type='hidden' value='{$info.id}' name='id'>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

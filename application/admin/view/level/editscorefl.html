@@ -1,0 +1,31 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">最小值</label>
+        <div class="layui-input-block">
+            <input title="最小值" name="min_score" value='{$info.min_score|default=""}' placeholder="" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">最大值</label>
+        <div class="layui-input-block">
+            <input  title="最大值" name="max_score" value='{$info.max_score|default=""}' placeholder="必填·"  class="layui-input">
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">放大倍数</label>
+        <div class="layui-input-block">
+            <input  title="放大倍数" name="multiple" value='{$info.multiple|default=""}' placeholder="必填·"  class="layui-input">
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($info['id'])}<input type='hidden' value='{$info.id}' name='id'>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

@@ -1,0 +1,73 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+<!--{if auth("$classuri/add")}-->
+<!--<button data-modal='{:url("@$classuri/add")}' data-title="添加等级" class='layui-btn layui-btn-sm layui-btn-primary'>添加等级</button>-->
+<!--{/if}-->
+<!--{if auth("$classuri/del")}-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <!--<th class='list-table-check-td think-checkbox'>-->
+                <!--<input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'>-->
+            <!--</th>-->
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>用户昵称</th>
+            <th class='text-left nowrap'>用户手机号</th>
+            <th class='text-left nowrap'>提现金额</th>
+            <th class='text-left nowrap'>提现时间</th>
+            <th class='text-left nowrap'>操作</th>
+            <th class='text-center'></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <!--<td class='list-table-check-td think-checkbox'>-->
+                <!--<input class="list-check-box" value='{$vo.id}' type='checkbox'>-->
+            <!--</td>-->
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.userinfo.nickname|default='暂无用户昵称'}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.userinfo.phone|default='暂无手机号'}</span>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.money|default=''}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.create_time|date="Y-m-d H:i:s"}
+            </td>
+            <td class='text-left nowrap'>
+                {if auth("$classuri/edit")}
+                {if condition="$vo.status eq 1"}
+                <a data-title="通过"   data-update="{$vo.id}"  data-modal='{:url("@$classuri/withdraw_agree")}?id={$vo.id}'>通过</a>
+                <a  data-update="{$vo.id}"  data-action=' {:url("$classuri/withdraw_reject")}?id={$vo.id}'>驳回</a>
+                {elseif condition="$vo.status eq 2"}
+                <span>已通过</span>
+                {elseif condition="$vo.status eq 3"}
+                <span>已驳回</span>
+                {/if}
+                {/if}
+            </td>
+            <td></td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

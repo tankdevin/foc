@@ -1,0 +1,63 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+<button data-modal='{:url("@$classuri/add")}' data-title="添加抽奖" class='layui-btn layui-btn-sm layui-btn-primary'>添加抽奖</button>
+<button data-update data-field='delete' data-action='{:url("$classuri/articlestatus")}' class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
+{/block}
+
+{block name="content"}
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='list-table-sort-td'>
+                <button type="submit" class="layui-btn layui-btn-normal layui-btn-xs">抽几率</button>
+            </th>
+            <th class='text-left nowrap'>抽奖名称</th>
+            <th class='text-left nowrap'>抽奖赠送数量(PDR)</th>
+            <th class='text-center nowrap'>添加时间</th>
+            <th class='text-center'></th>
+            <th class='text-center'></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+
+            <td class='list-table-sort-td'>
+                <input name="_{$vo.id}" value="{$vo.sort}" class="list-sort-input">
+            </td>
+
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.title}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.num}</span>
+            </td>
+
+
+            <td class='text-center nowrap'>
+                {$vo.create_at}
+            </td>
+            <td class='text-center nowrap'>
+                <a data-title="编辑" data-modal='{:url("@$classuri/edit")}?id={$vo.id}'>编辑</a>
+            </td>
+            <td></td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

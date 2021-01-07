@@ -1,0 +1,109 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+<!--{if auth("$classuri/add")}-->
+<!--<button data-modal='{:url("@$classuri/add")}' data-title="添加等级" class='layui-btn layui-btn-sm layui-btn-primary'>添加等级</button>-->
+<!--{/if}-->
+<!--{if auth("$classuri/del")}-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单号</label>
+        <div class="layui-input-inline">
+            <input name="order_no" value="{$Think.get.order_no|default=''}" placeholder="订单编号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间</label>
+        <div class="layui-input-inline">
+            <input name="create_at" id='range-date' value="{$Think.get.create_at|default=''}"
+                   placeholder="请选择时间" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+
+    <div class="layui-form-item layui-inline" style="margin-left:130px;">
+        <label class="layui-form-label">算力转出：{$total_out_hashrate}</label>
+        <label class="layui-form-label">算力转入：{$total_into_hashrate}</label>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <!--<th class='list-table-check-td think-checkbox'>-->
+                <!--<input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'>-->
+            <!--</th>-->
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>订单号</th>
+            <th class='text-left nowrap'>用户昵称</th>
+            <th class='text-left nowrap'>用户手机号</th>
+            <th class='text-left nowrap'>交易数量</th>
+            <th class='text-left nowrap'>算力累计收益</th>
+            <th class='text-left nowrap'>持续挖矿周期</th>
+            <th class='text-left nowrap'>交易类型</th>
+            <th class='text-left nowrap'>交易时间</th>
+            <th class='text-left nowrap'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.order_no}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.userinfo.nickname|default='暂无用户昵称'}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.userinfo.phone|default='暂无手机号'}</span>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.real_price*1}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.hashrate_bonus*1}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.dig_count}
+            </td>
+            <td class='text-left nowrap'>
+                {if condition="$vo.type eq 1"}
+                <span style="color:red;">挖矿中</span>
+                {else/}
+                  已卖出
+
+                {/if}
+            </td>
+
+            <td class='text-left nowrap'>
+                {$vo.create_at|date="Y-m-d H:i:s"}
+            </td>
+            <td class="text-center nowrap">
+                <a data-open="{:url('admin/finance/index')}?orderid={$vo.id}">查看收益</a>
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

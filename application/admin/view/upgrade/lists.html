@@ -1,0 +1,83 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+<button data-update data-field='delete' data-action='{:url("$classuri/memberstatus")}' class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
+{/block}
+
+{block name="content"}
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>申请人</th>
+            <th class='text-left nowrap'>公司名</th>
+            <th class='text-left nowrap'>手机号</th>
+            <th class='text-left nowrap'>意向城市</th>
+            <th class='text-left nowrap'>申请等级</th>
+            <th class='text-left nowrap'>申请时间</th>
+            <th class='text-left nowrap'>支付金额</th>
+            <th class='text-left nowrap'>是否支付</th>
+            <th class='text-left nowrap'></th>
+            <th class='text-center'></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.username|default='暂无用户昵称'}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.gsname|default='暂无公司名称'}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.phone|default='暂无手机号'}</span>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.address|default=''}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.level_name|default=''}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.add_at}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.pay_price}
+            </td>
+            <td class='text-left nowrap'>
+               {if condition="$vo.pay_status == 1"}
+                已支付
+                {else}
+                <span style="color:red;">未支付</span>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                <!--{if auth("$classuri/edit")}-->
+                <!--<a data-title="通过" data-modal='{:url("@$classuri/edit")}?id={$vo.id}'>通过</a>-->
+                <!--<a data-title="通过" data-modal='{:url("@$classuri/edit")}?id={$vo.id}'>驳回</a>-->
+                <!--{/if}-->
+            </td>
+            <td></td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

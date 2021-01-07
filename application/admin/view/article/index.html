@@ -1,0 +1,135 @@
+{extend name='admin@public/content'}
+{block name="button"}
+<!--{if auth("$classuri/add")}-->
+<button data-modal='{:url("$classuri/edit")}' data-title="添加文章" class='layui-btn layui-btn-sm layui-btn-primary'>添加文章</button>
+<!--{/if}-->
+
+<!--{if auth("$classuri/del")}-->
+<button data-update data-field='forbid' data-action='{:url("$classuri/articlestatus")}' class='layui-btn layui-btn-sm layui-btn-primary'>启用</button>
+<button data-update data-field='resume' data-action='{:url("$classuri/articlestatus")}' class='layui-btn layui-btn-sm layui-btn-primary'>禁用</button>
+<button data-update data-field='delete' data-action='{:url("$classuri/articlestatus")}' class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <select name="status" class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value='' {empty name="Think.get.status" }selected{/empty}>全部状态</option>
+                <option value='0' {eq name="Think.get.status" value="0" }selected{/eq}>冻结</option>
+                <option value='1' {eq name="Think.get.status" value="1" }selected{/eq}>正常</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-inline">
+            <select name="type" class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value='' {empty name="Think.get.type" }selected{/empty}>全部类型</option>
+                <option value='noticle' {eq name="Think.get.type" value="noticle" }selected{/eq}>公告</option>
+                <option value='yhxy' {eq name="Think.get.type" value="yhxy" }selected{/eq}>用户协议</option>
+                <option value='business' {eq name="Think.get.type" value="business" }selected{/eq}>首页轮播图</option>
+                <option value='news_banner' {eq name="Think.get.type" value="news_banner" }selected{/eq}>推广模板</option>
+                <option value='faq' {eq name="Think.get.type" value="faq" }selected{/eq}>新闻</option>
+                <option value='rhcz' {eq name="Think.get.type" value="rhcz" }selected{/eq}>如何创作</option>
+                <option value='rhwk' {eq name="Think.get.type" value="rhwk" }selected{/eq}>如何挖矿</option>
+                <option value='czsc' {eq name="Think.get.type" value="czsc" }selected{/eq}>充值手册</option>
+                <option value='jygz' {eq name="Think.get.type" value="jygz" }selected{/eq}>交易规则</option>
+                <option value='posabout' {eq name="Think.get.type" value="posabout" }selected{/eq}>pos挖矿</option>
+                <option value='poeabout' {eq name="Think.get.type" value="poeabout" }selected{/eq}>poe挖矿</option>
+                <option value='adout' {eq name="Think.get.type" value="adout" }selected{/eq}>关于系统</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<!-- 表单搜索 结束 -->
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>发布人</th>
+            <th class='text-left nowrap'>文章类型</th>
+            <th class='text-left nowrap'>文章标题</th>
+            <th class='text-left nowrap'>文章图片</th>
+            <th class='text-left nowrap'>添加时间</th>
+            <th class='text-left nowrap'>编辑时间</th>
+            <th class='text-left nowrap'>状态</th>
+            <th class='text-left nowrap'></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--{foreach $list as $key=>$vo}-->
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.id}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo['adminid']}
+            </td>
+            <td class='text-left nowrap'> 
+                {eq name="$vo['type']" value="noticle"}<span class="color-red">公告</span>{/eq}
+                {eq name="$vo['type']" value="yhxy"}<span class="color">用户协议</span>{/eq}
+                {eq name="$vo['type']" value="business"}<span class="color">首页轮播图</span>{/eq}
+                {eq name="$vo['type']" value="news_banner"}<span class="color">推广模板</span>{/eq}
+                {eq name="$vo['type']" value="gonglue_banner"}<span class="color">攻略轮播图</span>{/eq}
+                {eq name="$vo['type']" value="faq"}<span class="color">新闻</span>{/eq}
+                {eq name="$vo['type']" value="about"}<span class="color">简介</span>{/eq}
+                {eq name="$vo['type']" value="rhcz"}<span class="color">如何创作</span>{/eq}
+                {eq name="$vo['type']" value="rhwk"}<span class="color">如何挖矿</span>{/eq}
+                {eq name="$vo['type']" value="czsc"}<span class="color">充值手册</span>{/eq}
+                {eq name="$vo['type']" value="jygz"}<span class="color">交易规则</span>{/eq}
+                {eq name="$vo['type']" value="posabout"}<span class="color">pos挖矿</span>{/eq}
+                {eq name="$vo['type']" value="poeabout"}<span class="color">poe挖矿</span>{/eq}
+                {eq name="$vo['type']" value="adout"}<span class="color">关于系统</span>{/eq}
+            <td class='text-left nowrap'>
+                {$vo['title']}
+            </td>
+            <td class='text-left nowrap'>
+                <img data-tips-image style="width: 30px;height: 20px;" src="{$vo.img}" alt="">
+            </td>
+            <td class='text-left nowrap'>
+                {$vo['addtime']|date="Y-m-d H:i:s"}
+            </td>
+            <td class='text-left nowrap'>{notempty name="$vo.endtime"}{$vo['endtime']|date="Y-m-d H:i:s"}{/notempty}</td>
+            <td class='text-left nowrap'>
+                {if $vo.status eq 0}
+                    <span class="color-red">已禁用</span>
+                {elseif $vo.status eq 1}
+                    <span class="color-green">使用中</span>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                {if auth("$classuri/edit")}
+                    <span class="text-explode">|</span>
+                    <a data-title="编辑文章" data-modal='{:url("$classuri/edit")}?id={$vo.id}'>编辑</a>
+                {/if}
+            </td>
+        </tr>
+        <!--{/foreach}-->
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
+</form>
+{/block}

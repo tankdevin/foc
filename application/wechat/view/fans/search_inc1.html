@@ -1,0 +1,59 @@
+<form autocomplete="off" class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+    <!--<div class="layui-form-item layui-inline">-->
+
+        <!--<label class="layui-form-label">昵 称</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<input name="nickname" placeholder="请输入昵称" value="{$Request.get.nickname|default=''}"autocomplete="off" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+     <!--<div class="layui-form-item layui-inline">-->
+
+        <!--<label class="layui-form-label">会员id</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<input name="num_id" placeholder="会员id" value="{$Request.get.num_id|default=''}"autocomplete="off" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="layui-form-item layui-inline">
+
+        <label class="layui-form-label">手机号</label>
+        <div class="layui-input-inline">
+            <input name="phone" placeholder="请输入手机号" value="{$Request.get.phone|default=''}"autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-inline">
+            <select name="type"  lay-search="">
+                <option value='' {eq name="Think.get.type" value="" }selected{/eq}>全部</option>
+                <option value='1' {eq name="Think.get.type" value="1" }selected{/eq}>等级升级</option>
+                <option value='2' {eq name="Think.get.type" value="2" }selected{/eq}>服务商升级</option>
+
+            </select>
+        </div>
+    </div>
+
+
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时 间</label>
+        <div class="layui-input-inline">
+            <input name="addtime" id='create_at' value="{$Think.get.addtime|default=''}" placeholder="关注时间" class="layui-input">
+        </div>
+    </div>
+
+
+
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+    <style>
+        .right_label_ne{
+            float: right;
+            margin-right:20px;
+        }
+
+    </style>
+    <!--<a class="right_label_ne" data-modal='{:url("/wechat/news/not_bind")}' data-title="未绑定账户"> <li>未绑定账户<span class="layui-badge">{$not_bind|default=0}</span></li></a>-->
+    <div class="clearfix"></div>
+</form>
+

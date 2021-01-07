@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.clear {
+    clear: both;
+}
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+    line-height: 60px;
+}
+
+.left {
+    width: 300px;
+    float: left;
+}
+
+.right {
+    width: 850px;
+    float: right;
+    border: 1px solid #0bb20c;
+}
+
+.screen {
+    width: 300px;
+    height: 300px;
+    background: #000;
+    word-break: break-all;
+    overflow: hidden;
+}
+
+.devices {
+    width: 100%;
+    margin-top: 30px;
+    background: #1e9fff;
+}
+
+.devices ul li {
+    color: white;
+    padding: 10px;
+    list-style: none;
+    height: 30px;
+    line-height: 30px;
+}
+
+.devices ul li p {
+    float: left;
+}
+
+.devices ul li input {
+    float: right;
+    margin-top: 8px;
+}
+
+.design .tab {
+    height: 40px;
+    background: #1e9fff;
+
+}
+
+.design .tab li {
+    float: left;
+    height: 40px;
+    cursor: pointer;
+    padding: 0 30px;
+    list-style: none;
+    line-height: 40px;
+    color: #0700ff;
+
+}
+
+.design .tab li.active {
+    color: white;
+}
+
+.design .tabs {
+    padding: 20px;
+    clear: both;
+}
+
+.form-group {
+
+}
+
+.form-group .form-item {
+    clear: both;
+}
+
+.form-group .form-label {
+    float: left;
+    padding: 0 10px;
+    line-height: 55px;
+}
+
+.form-group .form-field {
+    padding: 10px;
+}
+
+.form-group select, .form-group input[type=text] {
+    width: 300px;
+    height: 35px;
+    padding: 0 10px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.text-type {
+    width: 300px;
+    height: 300px;
+    position: relative;
+}
+.show-content{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.img-type img {
+    width: 100%;
+    height: 100%;
+}
+
+.form-group select {
+    width: 320px;
+}
+
+button.upload {
+    width: 70px;
+    height: 40px;
+    position: absolute;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-left: 10px;
+    background: #1e9fff;
+}
+
+.colors {
+
+}
+
+.colors .color, .options .option {
+    float: left;
+    height: 30px;
+    padding: 0 15px;
+    color: #000;
+    margin: 3px 5px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #ccc;
+}
+.options .option input{
+    border: none;
+    width: 50px;
+    font-size: 14px;
+    outline: none;
+}
+
+.colors .color.checked:after, .options .option.checked:after, .borders .border.checked:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-bottom: 12px solid #000;
+    border-left: 12px solid transparent;
+}
+
+.borders {
+    float: left;
+}
+
+.borders .border {
+    width: 80px;
+    height: 80px;
+    float: left;
+    margin: 5px;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid gray;
+}
+
+.screen .border-anim {
+    cursor: pointer;
+    width: var(--border-anim-size);
+    height: var(--border-anim-size);
+    position: relative;
+    --border-anim-size: 300px;
+    --border-anim-width: calc(var(--border-anim-size) / 50);
+    --border-anim-width-double: calc(var(--border-anim-width) * 2);
+    --border-anim-duration: 5s;
+    /*--border-anim-border-color: gray;*/
+    --border-anim-hover-color: LightCoral;
+}
+
+.border-anim {
+    cursor: pointer;
+    width: var(--border-anim-size);
+    height: var(--border-anim-size);
+    position: relative;
+    --border-anim-size: 80px;
+    --border-anim-width: calc(var(--border-anim-size) / 50);
+    --border-anim-width-double: calc(var(--border-anim-width) * 2);
+    --border-anim-duration: 5s;
+    /*--border-anim-border-color: gray;*/
+    --border-anim-hover-color: LightCoral;
+}
+
+.border-anim::before, .border-anim::after {
+    content: '';
+    position: absolute;
+    border: var(--border-anim-width) dotted var(--border-anim-border-color);
+    /* 让边框在内容区域内绘制 */
+    box-sizing: border-box;
+    transition: background-color 1s;
+}
+
+.border-anim::before {
+    animation: anim-border-run calc(var(--border-anim-duration) * 2) linear infinite;
+}
+
+.border-anim::after {
+    animation: anim-border-run calc(var(--border-anim-duration) * 2) calc(var(--border-anim-duration) / -1) linear infinite;
+}
+
+.border-anim-content {
+    width: calc(100% - var(--border-anim-width-double));
+    height: calc(100% - var(--border-anim-width-double));
+    margin: var(--border-anim-width);
+    /*border: 1px solid var(--border-anim-border-color);*/
+}
+
+@keyframes anim-border-run {
+    /* 这里将动画分成了4步；也可以改为2步，这时before和after用的就要是两套keyframes了 */
+    from, to {
+        width: var(--border-anim-width-double);
+        height: 100%;
+        top: 0;
+        left: calc(100% - var(--border-anim-width-double));
+    }
+    25% {
+        width: 100%;
+        height: var(--border-anim-width-double);
+        top: calc(100% - var(--border-anim-width-double));
+        left: 0;
+    }
+    50% {
+        width: var(--border-anim-width-double);
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+    75% {
+        width: 100%;
+        height: var(--border-anim-width-double);
+        top: 0%;
+        left: 0%;
+    }
+    /* 需要设置临界效果，否则会渐变 */
+    from, to, 24.9% {
+        border-top-color: transparent;
+        border-left-color: transparent;
+        border-right-color: var(--border-anim-border-color);
+        border-bottom-color: var(--border-anim-border-color);
+    }
+    25%, 49.9% {
+        border-top-color: transparent;
+        border-left-color: var(--border-anim-border-color);
+        border-right-color: transparent;
+        border-bottom-color: var(--border-anim-border-color);
+    }
+    50%, 74.9% {
+        border-top-color: var(--border-anim-border-color);
+        border-left-color: var(--border-anim-border-color);
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+    }
+    75%, 99.9% {
+        border-left-color: transparent;
+        border-top-color: var(--border-anim-border-color);
+        border-right-color: var(--border-anim-border-color);
+        border-bottom-color: transparent;
+    }
+}
+
+.border-anim-content {
+    font-size: 14px;
+    text-align: center;
+    line-height: 80px;
+}
+.screen .flash{
+    height: 290px;
+    border: 5px dotted var(--border-anim-border-color);
+
+}
+.flash {
+    height: 76px;
+    animation: glow 700ms linear infinite;
+    --border-anim-border-color: red;
+    border: .1em dotted var(--border-anim-border-color);
+}
+
+@keyframes glow {
+    0% {
+        border-color: var(--border-anim-border-color);
+    }
+    100% {
+        border: none
+    }
+}

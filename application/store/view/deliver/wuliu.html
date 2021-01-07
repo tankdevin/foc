@@ -1,0 +1,18 @@
+<table class="layui-table" lay-skin="line">
+
+    <thead>
+    <tr>
+        <th>到达地址</th>
+        <th>到达时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name='wuliu' id='vi'}
+    <tr>
+        <td>{$vi.AcceptStation}</td>
+        <td>{$vi.AcceptTime}</td>
+    </tr>
+    {/volist}
+
+    </tbody>
+</table>

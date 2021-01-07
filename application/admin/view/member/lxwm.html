@@ -1,0 +1,118 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+<button data-update data-field='delete' data-action='{:url("$classuri/memberstatus")}' class='layui-btn layui-btn-sm layui-btn-primary'>删除</button>
+{/block}
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">操作</label>
+        <div class="layui-input-inline">
+            <select name="field" class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value='username' {eq name="Think.get.field" value="username" }selected{/eq}>会员名</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <input name="name" value="{$Think.get.name|default=''}" placeholder="请输入要查询的内容" class="layui-input">
+        </div>
+    </div>
+
+    <!--<div class="layui-form-item layui-inline">-->
+        <!--<label class="layui-form-label">状态</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<select name="type" class='layui-select' lay-search="" style="height: 32px;display: block;">-->
+                <!--<option value='' {empty name="Think.get.type" }selected{/empty}>全部状态</option>-->
+                <!--<option value='0' name="Think.get.type" >未回复</option>-->
+                <!--<option value='1' name="Think.get.type" >已回复</option>-->
+            <!--</select>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="layui-form-item layui-inline">-->
+        <!--<label class="layui-form-label">时间</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<select name="time" class='layui-select' lay-search="" style="height: 32px;display: block;">-->
+                <!--<option value='start' {eq name="Think.get.type" value="start" }selected{/eq}>创建时间</option>-->
+                <!--<option value='end' {eq name="Think.get.type" value="end" }selected{/eq}>处理时间</option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<input name="date" id='range-date' value="{$Think.get.date|default=''}"-->
+                   <!--placeholder="请选择时间" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<!-- 表单搜索 结束 -->
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>用户</th>
+            <th class='text-left nowrap'>手机号</th>
+            <th class='text-left nowrap'>标题</th>
+            <th class='text-left nowrap'>提交时间</th>
+            <!--<th class='text-left nowrap'>状态</th>-->
+            <th class='text-left nowrap'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--{foreach $list as $key=>$vo}-->
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.id}
+            </td>
+            <td class='text-left nowrap'>
+                <p>{$vo['user_info']['nickname']|default='暂无用户名'}</p>
+            </td>
+            <td class='text-left nowrap'>
+                <p>{$vo['user_info']['phone']|default='暂无手机号'}</p>
+            </td>
+            <td class='text-left nowrap'>
+                <p><img data-tips-image src="{$vo['image']}" style="width:60px;height:60px;;"></p>
+            </td>
+
+            <td class='text-left nowrap'>
+                <p>创建时间:{$vo.create_time|date="Y-m-d H:i:s"}</p>
+                <p>处理时间:{$vo.reply_time|date="Y-m-d H:i:s"}</p>
+            </td>
+
+            <!--<td class='text-left nowrap'>-->
+                <!--{if $vo.status eq 0}-->
+                <!--<span>未回复</span>-->
+                <!--{elseif $vo.status eq 1}-->
+                <!--<span style="color:#090">已回复</span>-->
+                <!--{/if}-->
+            <!--</td>-->
+
+            <td class='text-left nowrap'>
+                <span class="text-explode">|</span>
+                <a data-modal='{:url("$classuri/lxwmedit")}?id={$vo.id}' href="javascript:void(0)">详细</a>
+            </td>
+        </tr>
+        <!--{/foreach}-->
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
+</form>
+{/block}

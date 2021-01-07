@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<script>
+var ws = new WebSocket('wss://app.noahsark.work/wss');
+ws.onopen = function(){
+var uid = '{"type":"login","body":{"uid":"uid2"}}';
+ws.send(uid);
+};
+ws.onmessage = function(e){
+//alert(e.data);
+console.log(e.data);
+//window.location.reload();
+};
+setInterval(function(){ws.send('ping')},50000);
+</script>
+</body>
+</html>

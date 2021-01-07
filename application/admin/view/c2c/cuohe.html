@@ -1,0 +1,28 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true" method="post">
+
+   <div class="layui-form-item">
+        <label class="layui-form-label">匹配信息</label>
+        <div class="layui-input-block">
+          数量：{$info.num|default=""}<br>
+          金额：{$info.real_price|default=""}<br>
+          订单号：{$info.order_no|default=""}<br>
+         用户手机号码： {$info.userinfo.phone|default='暂无手机号'}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">匹配卖方手机号码</label>
+        <div class="layui-input-block">
+            <input  name="title" value='{$info.uid|default=""}' required="required"  class="layui-input">
+        </div>
+    </div>
+
+    
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        <input type='hidden'  value='{$info.id|default=""}' name='member_id'>
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

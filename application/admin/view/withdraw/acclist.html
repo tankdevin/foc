@@ -1,0 +1,132 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+{/block}
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <!--<label class="layui-form-label">操作</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<select name="field" class='layui-select' lay-search="" style="height: 32px;display: block;">-->
+                <!--<option value='num_id' {eq name="Think.get.num_id" value="num_id" }selected{/eq}>会员id</option>-->
+                <!--<option value='nickname' {eq name="Think.get.nickname" value="nickname" }selected{/eq}>昵称</option>-->
+                <!--&lt;!&ndash;<option value='id' {eq name="Think.get.field" value="id" }selected{/eq}>ID</option>&ndash;&gt;-->
+            <!--</select>-->
+        <!--</div>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<input name="name" value="{$Think.get.name|default=''}" placeholder="请输入要查询的内容" class="layui-input">-->
+        <!--</div>-->
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">会员手机</label>
+            <div class="layui-input-inline">
+                <input name="username" value="{$Think.get.username}" placeholder="请输入会员手机" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <select name="state"    class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value=''>请选择</option>
+                <option value='1' {eq name="Think.get.state" value="1" }selected{/eq}>审核中</option>
+                <option value='2' {eq name="Think.get.state" value="2" }selected{/eq}>通过</option>
+                <option value='3' {eq name="Think.get.state" value="3" }selected{/eq}>拒绝</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间</label>
+        <div class="layui-input-inline">
+            <input name="addtime" id='range-date' value="{$Think.get.addtime|default=''}"
+                   placeholder="请选择时间" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<!-- 表单搜索 结束 -->
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <!--<th class='list-table-check-td think-checkbox'>-->
+                <!--<input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>-->
+            <!--</th>-->
+            <th class='text-left nowrap'>ID</th>
+            <!--<th class='text-left nowrap'>会员ID</th>-->
+            <th class='text-left nowrap'>账号</th>
+            <th class='text-left nowrap'>区块链地址</th>
+            <th class='text-left nowrap'>总提数量</th>
+            <th class='text-left nowrap'>手续费</th>
+            <th class='text-left nowrap'>实提数量</th>
+            <th class='text-left nowrap'>审核时间</th>
+            <th class='text-left nowrap'>状态</th>
+            <th class='text-left nowrap'>操作</th>
+            <th class='text-left nowrap'>回复时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <!--<td class='list-table-check-td think-checkbox'>-->
+            <!--<input class="list-check-box" value='{$vo.id}' type='checkbox'>-->
+            <!--</td>-->
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.username}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.block_address}</span>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.num|default=''}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.tax|default=''}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.real_num|default=''}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.addtime|date="Y-m-d H:i:s"}
+            </td>
+            <td class='text-left nowrap'>
+                {switch $vo.state}
+                {case 0}审核中{/case}
+                {case 1}已审核{/case}
+                {default /}已拒绝
+                {/switch}
+            </td>
+            <td class='text-left nowrap'>
+                <a data-update="{$vo.id}" data-action="{:url('accpass')}">{if condition="$vo.state eq 0"}通过{/if}</a>
+                <a data-update="{$vo.id}" data-action="{:url('accdeny')}">{if condition="$vo.state eq 0"}拒绝{/if}</a>
+            </td>
+            <td class='text-left nowrap'>
+                {notempty name="$vo.reply_time"}
+                {$vo.reply_time|date="Y-m-d H:i:s"}
+                {/notempty}
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
+</form>
+{/block}

@@ -1,0 +1,97 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true"
+      method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">等级名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" value='{$vo.title|default=""}' required="required" title="请输入等级名称"
+                   placeholder="请输入等级名称" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">等级名称</label>
+        <label class="think-radio">
+            <input type="radio" value="1" name="status" id="radio2">累计消费 </label>
+        <label class="think-radio">
+            <input type="radio" value="0" name="status" id="radio1">后台指定 </label>
+    </div>
+
+    <script>
+
+        aa =  {$vo.status|default="1"}
+
+        if (!aa){
+            $('#radio1').attr("checked",'checked');
+            $('[name="money"]').val('');
+            $('#xianshi').hide();
+        }else{
+            $('#radio2').attr("checked",'checked');
+        }
+
+        $('#radio1').click(function(){
+            if($(this).val()){
+                $('[name="money"]').val('');
+                $('#xianshi').hide();
+            }
+        })
+        $('#radio2').click(function(){
+            if($(this).val()){
+                $('[name="money"]').val('');
+                $('#xianshi').show();
+            }
+        })
+    </script>
+    <div class="layui-form-item" id="xianshi">
+        <label class="layui-form-label">累计消费</label>
+        <div class="layui-input-block">
+            <input type="number" name="money" value='{$vo.money|default=""}' title="请输入累计消费" placeholder="请输入累计消费"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">代理分佣(%)</label>
+        <div class="layui-input-block">
+            <input type="number" name="ratio" value='{$vo.ratio|default=""}' required="required" title="请输入代理分佣"
+                   placeholder='列: 22% 输入 "22" 即可' class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">屏幕分佣</label>
+        <div class="layui-input-block">
+            <input type="number" name="screen" value='{$vo.screen|default=""}' required="required" title="请输入屏幕分佣"
+                   placeholder="请输入屏幕分佣" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">背包分佣</label>
+        <div class="layui-input-block">
+            <input type="number" name="knapsack" value='{$vo.knapsack|default=""}' required="required" title="请输入背包分佣"
+                   placeholder="请输入背包分佣" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">文章内容</label>
+        <div class="layui-input-block">
+            <div style="position:relative">
+                <textarea name="content">{$vo.content|default=''}</textarea>
+                <script>
+                    require(['ckeditor'], function () {
+                        var editor = window.createEditor('[name="content"]');
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+</form>

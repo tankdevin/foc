@@ -1,0 +1,177 @@
+{extend name='admin@public/content'}
+{block name="button"}
+
+<!--{if auth("$classuri/add")}-->
+<button data-open='{:url("$classuri/add")}' data-title="理财产品" class='layui-btn layui-btn-sm layui-btn-primary'>添加理财订单</button>
+<!--{/if}-->
+
+<!--{if auth("$classuri/forbid")}-->
+<!--<button data-update data-field='status' data-value='0' data-action='{:url("$classuri/forbid")}' class='layui-btn layui-btn-sm layui-btn-primary'>批量下架</button>-->
+<!--{/if}-->
+
+<!--{if auth("$classuri/resume")}-->
+<!--<button data-update data-field='status' data-value='1' data-action='{:url("$classuri/resume")}' class='layui-btn layui-btn-sm layui-btn-primary'>批量上架</button>-->
+<!--{/if}-->
+
+<!--{if auth("$classuri/del")}-->
+<!--<button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-primary'>批量删除</button>-->
+<!--{/if}-->
+
+{/block}
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form autocomplete="off" class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">订单单号</label>
+        <div class="layui-input-inline">
+            <input name="order_no" value="{$Think.get.order_no}" placeholder="请输入订单单号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">会员账号</label>
+        <div class="layui-input-inline">
+            <input name="uname" value="{$Think.get.uname}" placeholder="请输入会员账号" class="layui-input">
+        </div>
+    </div>
+    <!--<div class="layui-form-item layui-inline">-->
+        <!--<label class="layui-form-label">商品名称</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<input name="goods_title" value="{$Think.get.goods_title}" placeholder="请输入商品名称" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+
+
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">下单时间</label>
+        <div class="layui-input-inline">
+            <input name="create_at" data-time value="{$Think.get.create_at}" placeholder="请选择下单时间" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+
+</form>
+<script>
+    window.form.render();
+    $('[data-time]').map(function () {
+        window.laydate.render({range: true, elem: this});
+    });
+</script>
+<!-- 表单搜索 结束 -->
+
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    {if empty($list)}
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    {else}
+    <table class="layui-table" lay-size="sm">
+        <thead>
+        <tr>
+            <!--<th class='list-table-check-td think-checkbox'>-->
+                <!--<input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'/>-->
+            <!--</th>-->
+            <th class="text-left">id</th>
+            <th class="text-left">订单号</th>
+            <th class="text-left">账号</th>
+            <th class="text-left">理财名称</th>
+            <!--<th class="text-left">收益期（天）</th>-->
+            <th class="text-left">市场价</th>
+            <!--<th class="text-left">每天释放(usdt)</th>-->
+            <th class="text-left">已结算天数</th>
+            <!--<th class="text-left">已经释放(usdt)</th>-->
+            <th class="text-left">算力数量</th>
+            <!--<th class="text-left">nac收益</th>-->
+            <th class="text-left">购买日期</th>
+            <th class="text-left">状态</th>
+            <th class="text-left">结束日期</th>
+
+
+            <!--<th class="text-left">购买方式</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+       
+        <tr>
+            <!--<td class='list-table-check-td text-top think-checkbox'>-->
+                <!--<input class="list-check-box" value='{$vo.id}' type='checkbox'/>-->
+            <!--</td>-->
+            <td class="text-left text-top nowrap">
+                <!--会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>-->
+               {$vo.id}
+            </td>
+            <td class="text-left text-top nowrap">
+                <!--会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>-->
+               {$vo.ordersn}
+            </td>
+            <td class="text-left text-top nowrap">
+                <!--会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>-->
+               {$vo.uname}
+            </td>
+
+            <td class="text-left text-top nowrap">
+                <!--会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>-->
+                {$vo.title}
+            </td>
+            <!--<td class="text-left text-top nowrap">-->
+                <!--&lt;!&ndash;会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>&ndash;&gt;-->
+                <!--{$vo.day}-->
+            <!--</td>-->
+            <td class="text-left text-top nowrap">
+                <!--会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>-->
+                {$vo.market_price}$
+            </td>
+            <!--<td class="text-left text-top nowrap">-->
+                <!--&lt;!&ndash;会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>&ndash;&gt;-->
+                <!--{$vo.market_price/$vo.day|number_format1}-->
+            <!--</td>-->
+            <td class="text-left text-top nowrap">
+                <!--会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>-->
+               {$vo.settlement_days}
+            </td>
+            <!--<td class="text-left text-top nowrap">-->
+                <!--&lt;!&ndash;会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>&ndash;&gt;-->
+               <!--{$vo.earned}-->
+            <!--</td>-->
+            <td class="text-left text-top nowrap">
+                {$vo.sl_num}
+            </td>
+            <!--<td class="text-left text-top nowrap">-->
+                <!--{$vo.nac_num}-->
+            <!--</td>-->
+            <td class="text-left text-top nowrap">
+                <!--会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>-->
+                {$vo.create_at|date="Y-m-d H:i:s"}
+            </td>
+            <td class="text-left text-top nowrap">
+                {if $vo.status == '0'}
+                <span class="color-green">收益中</span>
+                {elseif $vo.status == '1'}
+                <span class="color-red">收益结束</span>
+                {/if}
+            </td>
+            <td class="text-left text-top nowrap">
+                <!--会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>-->
+                {notempty name="$vo.profit_end"}
+                    {$vo.profit_end|date="Y-m-d H:i:s"}
+                {/notempty}
+            </td>
+
+              <!--<td class="text-left text-top nowrap">-->
+                <!--{if $vo.state == '0'}-->
+                <!--<span class="color-green">前台</span>-->
+                <!--{elseif $vo.state == '1'}-->
+                <!--<span class="color-red">后台</span>-->
+                <!--{/if}-->
+            <!--</td>-->
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    {/if}
+</form>
+
+{/block}

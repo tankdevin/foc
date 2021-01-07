@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>会员族谱</title>
+
+    <link rel="icon" type="image/x-icon" href="../img/logo.ico">
+    <link rel="stylesheet" href="__STATIC__/node_modules/nak_smallsha/plugins/orgchart/examples/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__STATIC__/node_modules/nak_smallsha/plugins/orgchart/examples/css/jquery.orgchart.css">
+    <link rel="stylesheet" href="__STATIC__/node_modules/nak_smallsha/plugins/orgchart/examples/css/style.css">
+    <link rel="stylesheet" href="__STATIC__/node_modules/nak_smallsha/plugins/orgchart/examples/export-orgchart/style.css">
+
+</head>
+<style>
+    #chart-container{
+        width: 98%;
+        height: 97%;
+    }
+</style>
+<body>
+<div id="chart-container"></div>
+
+<script type="text/javascript" src="__STATIC__/node_modules/nak_smallsha/plugins/orgchart/examples/js/html2canvas.min.js"></script>
+<script type="text/javascript" src="__STATIC__/node_modules/nak_smallsha/plugins/orgchart/examples/js/jquery.orgchart.js"></script>
+<!--<script type="text/javascript" src="__STATIC__/node_modules/nak_smallsha/plugins/orgchart/examples/export-orgchart/scripts.js"></script>-->
+</body>
+</html>
+<script>
+    (function($){
+        $(function() {
+            var datascource = {
+                'id': '{$user_org.id|default='0'}',
+                'title': '{$user_org.address|default=''}',
+                'phone': '{$user_org.phone|default='暂无手机号'}',
+                'address': '{$user_org.address|default=''}',
+                'account_money': '{$user_org.account_money|default='0'}',
+                'level_name':'{$user_org.level_name|default='会员'}',
+                'create_at': '{$user_org.create_at|default='0'}',
+                'wallet_six':'{$user.wallet_six|default='0'}',
+                'children': <?php echo $datascource;?>
+        };
+
+            $('#chart-container').orgchart({
+                'data': datascource,
+                'nodeTitle': 'phone',
+                'nodeContent': 'address',
+                'nodeID': 'id',
+                'exportButton': true,
+                'exportFilename': 'MyOrgChart',
+                'createNode': function($node, data) {
+                    console.log(data);
+                    var secondMenuIcon = $('<i>', {
+                        'class': 'fa fa-info-circle second-menu-icon',
+                        click: function() {
+                            $(this).siblings('.second-menu').toggle();
+                        }
+                    });
+                    var secondMenu = '<div class="second-menu"><div>会员身份:'+data.level_name+'</div><div>USDT余额:'+data.account_money+'</div><div>矿机总数：'+data.wallet_six+'</div><div>注册时间:'+data.create_at+'</div></div>';
+                    $node.append(secondMenuIcon).append(secondMenu);
+                }
+            });
+
+        });
+
+    })(jQuery);
+</script>

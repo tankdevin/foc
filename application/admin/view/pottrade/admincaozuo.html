@@ -1,0 +1,33 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">收款账号</label>
+        <div class="layui-input-block">
+            <input  name="s_uname" value="{$info['s_uname']}" class="layui-input" readonly>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">收款地址</label>
+        <div class="layui-input-block">
+            <input  name="payment" value="{$info['payment']}" placeholder="可选·" class="layui-input" readonly>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">上传图片</label>
+        <div class="layui-input-block">
+            <div class='col-sm-8'>
+                <img data-tips-image class='col-sm-8' src="{$info.payimg|default=''}"/>
+                <input type="hidden" name="img"  onchange="$(this).prev('img').attr('src', this.value)"
+                       value="{$info.payimg|default=''}" class="layui-input">
+                <a class="btn btn-info" style="float: right" data-file="one" data-field="img ">上传图片</a>
+                <br>
+                <p>建议上传尺寸为500x300px</p>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item text-center">
+        {if isset($info['id'])}<input type='hidden' value='{$info.id}' name='id'>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

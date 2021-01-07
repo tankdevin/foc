@@ -1,0 +1,49 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true" method="post">
+    {empty name="$info['id']"}
+    {else/}
+    <div class="layui-form-item">
+        <label class="layui-form-label">文章ID</label>
+        <div class="layui-input-block">
+            <input readonly="readonly" disabled="disabled" name="id" value='{$info.id|default=""}' required="required" class="layui-input layui-disabled">
+        </div>
+    </div>
+    {/empty}
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input  name="name" value='{$info.name|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <input  name="content" value='{$info.content|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <div>
+                {empty name="$info['id']"}
+                <select name="status" class="layui-select">
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+                {else/}
+                <select name="status" class="layui-select">
+                    <option value="1" {if $info['status'] eq 1}selected="selected"{/if}>启用</option>
+                    <option value="0" {if $info['status'] eq 0}selected="selected"{/if}>禁用</option>
+                </select>
+                {/empty}
+            </div>
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($info['id'])}<input type='hidden' value='{$info.id}' name='id'>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

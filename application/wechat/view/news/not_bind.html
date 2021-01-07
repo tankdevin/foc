@@ -1,0 +1,62 @@
+{extend name='admin@public/content'}
+
+
+{block name="content"}
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+
+            <th class='text-left'>ID</th>
+            <th class='text-left'>账号</th>
+            <th class='text-left'>用户级别</th>
+            <th class='text-left'>上级</th>
+            <th class='text-left'>开通时间</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+
+            <td class='text-left nowrap'>
+                {$vo.id|default='暂无数据'}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.phone|default='暂无数据'}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.member_level_title|default='暂无数据'}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.first_parent_info.phone|default='暂无上级'}
+            </td>
+
+            <td class='text-left nowrap'>
+                {$vo.create_at|default='暂无数据'}
+            </td>
+
+
+            <td class='text-left nowrap'>
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}
+
+{block name="script"}
+<!--表单初始化-->
+<script>
+    window.laydate.render({range: true, elem: '#create_at'});
+    window.form.render();
+</script>
+{/block}

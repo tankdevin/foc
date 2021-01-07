@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <!--用于设定网页的到期时间。一旦网页过期，必须到服务器上重新传输。 -->
+    <meta http-equiv="Expires" content="-1">
+    <!--用于设定禁止浏览器从本地机的缓存中调阅页面内容，设定后一旦离开网页就无法从Cache中再调出 -->
+    <meta http-equiv="Pragma" content="no-cache">
+    <!--清除缓存，每次访问要重新下载-->
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <!--缩放比例-->
+    <meta name="viewport" content="width=width-device,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+    <title>OPF</title>
+    <script type="text/javascript">
+        //rem换算
+        (function (doc, win) {
+            var htmlFont = function () {
+                var docEl = doc.documentElement, l = docEl.clientWidth, f;
+                f = l / 18.75;
+                l > 750 ? docEl.style.fontSize = 40 + "px" : docEl.style.fontSize = f + "px";
+            };
+            htmlFont();
+            win.addEventListener("resize", htmlFont, false);
+        })(document, window);
+    </script>
+
+    <style rel="stylesheet">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .content {
+            width: 100%;
+            min-height: 100vh;
+            height: 100%;
+            background: #0d1637;
+        }
+
+        .content .zhanwei {
+            width: 100%;
+            height: 3.275rem;
+        }
+
+        .content .logo {
+            width: 7.725rem;
+            height: 1.375rem;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .main {
+            width: 14rem;
+            margin: 0 auto;
+            padding-top: 2.25rem;
+        }
+
+        .main .box {
+            width: 100%;
+            height: 2.725rem;
+            border-bottom: 1px solid #192b6c;
+            position: relative;
+        }
+
+        .box button {
+            position: absolute;
+            top: 1.1rem;
+            right: 0;
+            width: 3.4rem;
+            height: 1.15rem;
+            background-color: #008aff;
+            border-radius: 0.125rem;
+            color: #fff;
+            text-align: center;
+            line-height: 1.15rem;
+            font-size: 0.4rem;
+            border: 0;
+
+        }
+
+        .box div {
+            width: 1.95rem;
+            height: 2.725rem;
+            float: left;
+            position: relative;
+        }
+
+        .box div img {
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 1.325rem;
+        }
+
+        .img1 {
+            width: 0.825rem;
+            height: 0.925rem;
+            margin-left: -0.3875rem;
+        }
+
+        .img2 {
+            width: 0.9rem;
+            height: 0.9;
+            margin-left: -0.45rem;
+        }
+
+        .img3 {
+            width: 0.9rem;
+            height: 1rem;
+            margin-left: -0.4625rem;
+        }
+
+        input {
+            display: block;
+            float: left;
+            width: 9rem;
+            height: 1.75rem;
+            margin-top: 0.975rem;
+            border: none;
+            outline: none;
+            background: #0d1637;
+            color: #fff;
+        }
+
+        .img4 {
+            width: 3.75rem;
+            height: 1.75rem;
+            position: absolute;
+            top: 1rem;
+            right: 0.5rem;
+            background: #fff;
+        }
+
+        .lele {
+            width: 100%;
+            height: 2rem;
+        }
+
+        .send {
+            width: 100%;
+            height: 2rem;
+            text-align: center;
+            line-height: 2rem;
+            background: #008aff;
+            font-size: 0.7rem;
+            color: #fff;
+            margin-top: 0.725rem;
+            border-radius: 0.25rem;
+        }
+
+        .lala {
+            width: 100%;
+            height: 2.6rem;
+        }
+    </style>
+
+</head>
+<body>
+<div class="content">
+    <div class="zhanwei"></div>
+    <img src="__STATIC__/index/img/login_login.png" alt="" class="logo">
+    <form action="" id="form1" onsubmit="return false;">
+    <div class="main">
+        <div class="box">
+            <div>
+                <img src="__STATIC__/index/img/zhuce1.png" alt="" class="img1">
+            </div>
+            <input type="text" name="phone" placeholder="请输入手机号">
+        </div>
+        <div class="box">
+            <div>
+                <img src="__STATIC__/index/img/zhuce2.png" alt="" class="img3">
+            </div>
+            <input type="text" name="verify_code" placeholder="请输入验证码">
+            <button id="btnVerify">发送验证码</button>
+        </div>
+        <div class="box">
+            <div>
+                <img src="__STATIC__/index/img/zhuce3.png" alt="" class="img1">
+            </div>
+            <input type="text" name="nickname" placeholder="请输入昵称">
+        </div>
+        <div class="box">
+            <div>
+                <img src="__STATIC__/index/img/zhuce4.png" alt="" class="img1">
+            </div>
+            <input type="password" name="password" placeholder="请输入登陆密码">
+        </div>
+        <div class="box">
+            <div>
+                <img src="__STATIC__/index/img/zhuce5.png" alt="" class="img1">
+            </div>
+            <input type="password" name="repassword" placeholder="请确认密码">
+        </div>
+        <div class="box">
+            <div>
+                <img src="__STATIC__/index/img/zhuce6.png" alt="" class="img1">
+            </div>
+            <input type="password" name="paypassword" placeholder="请输入交易密码">
+        </div>
+        <div class="box">
+            <div>
+                <img src="__STATIC__/index/img/zhuce7.png" alt="" class="img1">
+            </div>
+            <input type="password" name="repaypassword" placeholder="请确认密码">
+        </div>
+        <div class="box">
+            <div>
+                <img src="__STATIC__/index/img/zhuce8.png" alt="" class="img1">
+            </div>
+            <input type="text" name="first_leader" value="{$first_tuiguang_leader|default=''}" placeholder="请输入推荐人">
+        </div>
+
+        <div class="lele"></div>
+        <div class="send" onclick="return send(this);">注册</div>
+        <div class="send" onclick="goDownApp();">我要下载1111</div>
+        <div class="lala"></div>
+    </div>
+    </form>
+</div>
+</body>
+</html>
+<script src="__STATIC__/plugs/layui/layui.all.js"></script>
+<script src="__STATIC__/plugs/jquery/jquery.min.js"></script>
+<script>
+    var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if(isAndroid){
+        var APP_URL = "{:sysconf('android_app_download_link')}"
+    }else if(isiOS){
+        var APP_URL = "{:sysconf('ios_app_download_link')}"
+    }else{
+        var APP_URL = "{:sysconf('android_app_download_link')}"
+    }
+
+    function send() {
+        var phone = $("input[name='phone']").val();
+        var verify_code = $("input[name='verify_code']").val();
+        var nickname = $("input[name='nickname']").val();
+        var password = $("input[name='password']").val();
+        var repassword = $("input[name='repassword']").val();
+        var paypassword = $("input[name='paypassword']").val();
+        var repaypassword = $("input[name='repaypassword']").val();
+        var first_leader = $("input[name='first_leader']").val();
+
+        if (!phone || !verify_code || !nickname || !password || !repassword || !paypassword || !repaypassword || !first_leader) {
+            layer.msg('请完善信息:(');
+            return false;
+        }
+        if( password != repassword){
+           layer.msg('两次密码输入不一致');return false;
+        }
+
+        if(paypassword != repaypassword){
+            layer.msg('两次交易密码输入不一致');return false;
+        }
+        $.post("{:url('apiv1/login/register')}", {
+            phone: phone,
+            verify_code: verify_code,
+            nickname: nickname,
+            password: password,
+            paypassword: paypassword,
+            first_leader: first_leader
+        }, function (res) {
+            if (res.code == 0) {
+                layer.msg(res.msg);
+                return false;
+            } else {
+                layer.msg('注册成功,请点击下载app进行登录:)');
+                $("#form1")[0].reset();
+                $(".send").attr('disabled', 'disabled');
+            }
+        })
+
+
+    }
+
+
+    $("#btnVerify").click(function () {
+        var phone = $("input[name='phone']").val();
+        !phone && layer.msg('账号不能为空');
+        $.post("{:url('apiv1/login/sendMobileMessage')}", {phone: phone,type:'register'}, function (res) {
+            if (res.code == 0) {
+                layer.msg(res.msg);
+                return false;
+            } else {
+
+                layer.msg('发送成功');
+                time();
+                $('#btnVerify').attr('disabled', "true");//添加disabled属性
+            }
+        })
+
+    })
+
+
+    var wait = 60;//时间
+    var t;//计时器
+    function time() {
+        if (wait == 0) {
+            $('#btnVerify').removeAttr('disabled');
+
+            //btnObj.textContent = "再次获取验证码";
+            $('#btnVerify').text("获取验证码");
+            $("#btnVerify").css('width', '3.4rem')
+            wait = 60;
+        } else {
+            $("#btnVerify").css('width', '5.4rem')
+            //$('#btnVerify').textContent = "重新发送验证码(" + wait + "s)";
+            $('#btnVerify').text("重新发送验证码(" + wait + "s)");
+            wait--;
+            t = setTimeout(function () {
+                time();
+            }, 1000)
+        }
+    }
+    function goDownApp(){
+        $("#form1")[0].reset();
+        window.location.href= APP_URL;
+    }
+    function stopTime() {
+        clearTimeout(t);
+    }
+
+</script>

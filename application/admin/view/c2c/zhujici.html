@@ -1,0 +1,86 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+<!--{if auth("$classuri/add")}-->
+<button data-modal='{:url("@$classuri/zhujiciadd")}' data-title="添加等级" class='layui-btn layui-btn-sm layui-btn-primary'>添加</button>
+<!--{/if}-->
+<!--{if auth("$classuri/del")}-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-inline">
+            <input name="name" value="{$Think.get.name|default=''}" placeholder="名称" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间</label>
+        <div class="layui-input-inline">
+            <input name="create_at" id='range-date' value="{$Think.get.create_at|default=''}"
+                   placeholder="请选择时间" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <!--<th class='list-table-check-td think-checkbox'>-->
+            <!--<input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'>-->
+            <!--</th>-->
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>名称</th>
+            <th class='text-left nowrap'>备注</th>
+            <th class='text-left nowrap'>是否启用</th>
+            <th class='text-left nowrap'>时间</th>
+            <th class='text-left nowrap'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.name}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.content}</span>
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.status eq 1}
+                <span class="color-green">已启用</span>
+                {else/}
+                <span class="color-red">启用</span>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+               {$vo.caeate_at|datetime}
+            </td>
+            <td class='text-left nowrap'>
+                <a data-modal="{:url('admin/c2c/zhujiciadd')}?id={$vo.id}&type={$vo.type}" data-title="操作">操作</a>
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

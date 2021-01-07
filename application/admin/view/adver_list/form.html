@@ -1,0 +1,422 @@
+{extend name='admin@public/content'}
+{block name='style'}
+    <link rel="stylesheet" href="__STATIC__/led/css/style.css">
+{/block}
+{block name="content"}
+<div class="container" id="app">
+    <div class="title">
+        <h3>LED</h3>
+    </div>
+    <div class="box">
+        <div class="layui-form-item">
+            <label class="layui-form-label">广告受限用户级别</label>
+            <div class="layui-input-block">
+                <div>
+                    <select  class="layui-select" v-model="couponSelected">
+                        <option  v-for="adver_list in adver_lists" :value="adver_list.id"> {{adver_list.title}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="left">
+            <div class="screen">
+                <div class="text-type"
+                     v-if="type == 'text'"
+                     v-bind:style="textType">
+                    <div v-bind:class="textType.borderClass"
+                         v-bind:style="{'--border-anim-border-color': textType.borderColor}">
+                        <div class="border-anim-content1"></div>
+                    </div>
+                    <div class="show-content">
+                        {{text.text}}
+                    </div>
+                </div>
+                <div class="img-type" v-if="type == 'img'">
+                    <img v-bind:src="img.src" alt="">
+                </div>
+                <div class="img-type" v-if="type == 'gif'">
+                    <img v-bind:src="img.src" alt="">
+                </div>
+            </div>
+
+        </div>
+        <div class="right">
+            <div class="design">
+                <ul class="tab">
+                    <li v-on:click="types('text')"
+                        v-bind:class="{active: type == 'text'}">文字</li>
+                    <li v-on:click="types('img')"
+                        v-bind:class="{active: type == 'img'}">图片</li>
+                    <li v-on:click="types('gif')"
+                        v-bind:class="{active: type == 'gif'}">动图</li>
+                </ul>
+                <div class="tabs">
+                    <div class="text" v-show="type == 'text'">
+                        <div class="form-group">
+                            <div class="form-item">
+                                <div class="form-label">
+                                    类型
+                                </div>
+                                <div class="form-field" style="padding-top: 15px;">
+                                    <input type="radio" v-model="text.type" name="type" value="text"> 文字
+                                    <input type="radio" v-model="text.type" name="type" value="text_pic"> 字幕
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <div class="form-label">
+                                    内容
+                                </div>
+                                <div class="form-field">
+                                    <input type="text" v-model="text.text" placeholder="请输入内容">
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <div class="form-label">
+                                    大小
+                                </div>
+                                <div class="form-field">
+                                    <div class="options">
+                                        <div class="option"
+                                             v-for="v in textSource.sizes"
+                                             v-bind:class="{checked: text.size == v}"
+                                             v-on:click="size(v)">{{v}}
+                                        </div>
+                                        <div class="option" v-show="text.type == 'text_pic'">
+                                            <input type="number" v-model="text.size">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <div class="form-label">
+                                    颜色
+                                </div>
+                                <div class="form-field">
+                                    <div class="colors">
+                                        <div class="color"
+                                             v-for="v in textSource.colors"
+                                             v-on:click="color(v)"
+                                             v-bind:class="{checked: text.color == v.value}"
+                                             v-bind:style="{backgroundColor: v.color}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <div class="form-label">
+                                    边框
+                                </div>
+                                <div class="form-field">
+                                    <div class="borders">
+                                        <div class="border"
+                                             v-on:click="border(v)"
+                                             v-bind:class="{checked: text.border == v.value}"
+                                             v-for="v in textSource.borders">
+                                            <div v-bind:class="v.class"
+                                                 v-bind:style="{'--border-anim-border-color': v.color}">
+                                                <div class="border-anim-content">
+                                                    {{v.name}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--仅字幕-->
+                            <div class="form-item">
+                                <div class="form-label">
+                                    字体
+                                </div>
+                                <div class="form-field">
+                                    <div class="options">
+                                        <div class="option"
+                                             v-for="v in textSource.fonts"
+                                             v-bind:class="{checked: text.font == v}"
+                                             v-on:click="font(v)">{{v}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="img" v-show="type == 'img'">
+                        <div class="form-group">
+                            <div class="form-item">
+                                <div class="form-label">
+                                    图片
+                                </div>
+                                <div class="form-field">
+                                    <input id="file" type="file">
+                                    <button v-on:click="upload('file')" class="upload">上传</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="img" v-show="type == 'gif'">
+                        <div class="form-group">
+                            <div class="form-item">
+                                <div class="form-label">
+                                    图片
+                                </div>
+                                <div class="form-field">
+                                    <input id="file1" type="file">
+                                    <button v-on:click="upload('file1')" class="upload">上传</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gif"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='button' @click="goAdd">保存数据</button>
+    </div>
+</div>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            type: 'text',
+            adver_level: '',
+            adver_lists: <?php echo json_encode($adver_level);?>,
+             couponSelected: '',
+            text: {
+                text: '自行填充',
+                size: 16,
+                font: '黑体',
+                color: '255',
+                border: '',
+                type: 'text'
+            },
+            img: {
+                src: ''
+            },
+            gif: {
+                src: ''
+            },
+            textType: {
+                color: 'red',
+                fontSize: '75px',
+                lineHeight: '75px',
+                fontFamily: '黑体',
+                borderClass: '',
+                borderColor: ''
+            },
+            textSource: {
+                sizes: [
+                    16, 24, 32
+                ],
+                fonts: [
+                    '宋体', '黑体', '楷体', '隶书',
+                    '微软雅黑', '幼圆', '华文琥珀'
+                ],
+                colors: [
+                    {
+                        name: '红色',
+                        value: '255',
+                        color: 'red'
+                    },
+                    {
+                        name: '绿色',
+                        value: '65280',
+                        color: 'lime'
+                    },
+                    {
+                        name: '黄色',
+                        value: '65535',
+                        color: 'yellow',
+                    },
+                    {
+                        name: '蓝色',
+                        value: '16711680',
+                        color: 'blue',
+                    },
+                    {
+                        name: '紫色',
+                        value: '16711935',
+                        color: 'fuchsia',
+                    },
+                    {
+                        name: '青色',
+                        value: '16776960',
+                        color: 'aqua',
+                    },
+                    {
+                        name: '白色',
+                        value: '16777215',
+                        color: 'white',
+                    },
+                ],
+                borders: [
+                    {
+                        name: '无',
+                        value: '0x00',
+                    },
+                    {
+                        name: '红4点',
+                        value: '0x01',
+                    },
+                    {
+                        name: '绿4点',
+                        value: '0x02',
+                    },
+                    {
+                        name: '黄4点',
+                        value: '0x03',
+                    },
+                    {
+                        name: '红1点',
+                        value: '0x04',
+                    },
+                    {
+                        name: '绿1点',
+                        value: '0x05',
+                    },
+                    {
+                        name: '黄1点',
+                        value: '0x06',
+                    },
+                    {
+                        name: '红单线闪烁',
+                        value: '0x07',
+                        color: 'red',
+                        class: 'flash'
+                    },
+                    {
+                        name: '绿单线闪烁',
+                        value: '0x08',
+                        color: 'green',
+                        class: 'flash'
+                    },
+                    {
+                        name: '黄单线闪烁',
+                        value: '0x09',
+                        color: 'yellow',
+                        class: 'flash'
+                    },
+                    {
+                        name: '红单线环绕',
+                        value: '0x0A',
+                        color: 'red',
+                        class: 'border-anim'
+                    },
+                    {
+                        name: '绿单线环绕',
+                        value: '0x0B',
+                        color: 'green',
+                        class: 'border-anim'
+                    },
+                    {
+                        name: '黄单线环绕',
+                        value: '0x0C',
+                        color: 'yellow',
+                        class: 'border-anim'
+                    },
+                    {
+                        name: '红双线环绕',
+                        value: '0x0D',
+                        color: 'red',
+                        class: 'border-anim'
+                    },
+                    {
+                        name: '绿双线环绕',
+                        value: '0x0E',
+                        color: 'green',
+                        class: 'border-anim'
+                    },
+                    {
+                        name: '黄双线环绕',
+                        value: '0x0F',
+                        color: 'yellow',
+                        class: 'border-anim'
+                    },
+                ]
+            }
+        },
+        watch: {
+            text: {
+                deep: true,
+                handler: function (v) {
+                    if(v.size > 64){
+                        this.text.size = 64
+                    }
+                    if(v.size < 16){
+                        this.text.size = 16
+                    }
+                    var size = 300 / (64 / v.size);
+                    this.text.size = v.size;
+                    this.textType.fontSize = size + 'px';
+                    this.textType.lineHeight = size + 'px';
+                }
+            }
+        },
+    created:function(){
+        this.couponSelected = this.adver_lists[0].id;
+    },
+        methods: {
+            types: function (v) {
+                this.type = v
+            },
+            size: function (v) {
+                var size = 300 / (64 / v);
+                this.text.size = v;
+                this.textType.fontSize = size + 'px';
+                this.textType.lineHeight = size + 'px';
+            },
+            font: function (v) {
+                this.text.font = v;
+                this.textType.fontFamily = "'" + v + "'";
+            },
+            color: function (v) {
+                this.text.color = v.value;
+                this.textType.color = v.color;
+            },
+            border: function (v) {
+                console.log(v)
+                this.text.border = v.value;
+                this.textType.borderClass = v.class;
+                this.textType.borderColor = v.color;
+            },
+            upload: function (v) {
+                var self = this;
+                var file = document.getElementById(v).files[0];
+
+                var form = new FormData();
+                form.append('file', file);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', "{:url('index/file/fileUploader')}", true);
+                xhr.send(form);
+                xhr.onreadystatechange = function () {
+                    //后端接受完毕
+                    if (xhr.readyState == 4) {
+                        var obj = JSON.parse(xhr.responseText);
+                        if (v == 'file1') {
+                            self.gif.src = obj.msg;
+                        } else {
+                            self.img.src = obj.msg;
+                        }
+                    }
+                };
+            },
+            goAdd:function(v){
+                    var self = this;
+                    $.post("{:url('admin/adver_list/add')}",{type:self.type,text:self.text,textType:self.textType,img:self.img.src,gif:self.gif.src},function(data){
+                         var obj = JSON.parse(JSON.stringify(data));
+                         console.log(obj);
+                         if(obj.code == 1){
+                             $.msg.success(obj.msg, obj.wait, function(){
+                                 window.location.href="{:url('/admin.html#/admin/adver_list/lists')}"
+                             });
+                         }else{
+                             $.msg.error(obj.msg, obj.wait, function(){
+                                 return false;
+                             });
+                         }
+                    })
+            }
+        }
+    })
+</script>
+
+{/block}

@@ -1,0 +1,98 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+<!--{if auth("$classuri/add")}-->
+<!--<button data-modal='{:url("@$classuri/zhujiciadd")}' data-title="添加等级" class='layui-btn layui-btn-sm layui-btn-primary'>添加</button>-->
+<!--{/if}-->
+<!--{if auth("$classuri/del")}-->
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <!--<th class='list-table-check-td think-checkbox'>-->
+            <!--<input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'>-->
+            <!--</th>-->
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>用户名称</th>
+            <th class='text-left nowrap'>用户收币地址</th>
+            <th class='text-left nowrap'>名称</th>
+            <th class='text-left nowrap'>logo</th>
+            <th class='text-left nowrap'>发行价</th>
+            <th class='text-left nowrap'>发行总量</th>
+            <th class='text-left nowrap'>发行周期</th>
+            <th class='text-left nowrap'>发行方</th>
+            <th class='text-left nowrap'>官方网站</th>
+            <th class='text-left nowrap'>白皮书链接</th>
+            <th class='text-left nowrap'>联系方式</th>
+            <th class='text-left nowrap'>合约地址</th>
+            <th class='text-left nowrap'>发行宣言</th>
+            <th class='text-left nowrap'>申请时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.uid|name}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.uid|useraddress}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.name}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.logo}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.faxingjia}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.zliang}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.zhouqi}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.faxingfang}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.wangzhi}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.lianjie}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.lianxi}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.address}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.content}</span>
+            </td>
+            <td class='text-left nowrap'>
+               {$vo.caeate_at|datetime}
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

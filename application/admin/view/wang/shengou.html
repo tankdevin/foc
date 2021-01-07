@@ -1,0 +1,120 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+{if auth("$classuri/selllistsd")}
+<!--<button data-update data-field='forbid' data-action='{:url("$classuri/selllistsd")}' class='layui-btn layui-btn-sm layui-btn-primary'>匹配</button>-->
+{/if}
+{if auth("$classuri/del")}
+{/if}
+{/block}
+
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">用户地址</label>
+        <div class="layui-input-inline">
+            <input name="address" value="{$Think.get.address|default=''}" placeholder="用户地址" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间</label>
+        <div class="layui-input-inline">
+            <input name="create_at" id='range-date' value="{$Think.get.create_at|default=''}"
+                   placeholder="请选择时间" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<form autocomplete="off" onsubmit="return false;" data-auto="true" method="post">
+    <!--{if empty($list)}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="none" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>用户昵称</th>
+            <!--<th class='text-left nowrap'>订单类型</th>-->
+            <th class='text-left nowrap'>用户地址</th>
+            <th class='text-left nowrap'>申购NF</th>
+            <th class='text-left nowrap'>价格</th>
+            <th class='text-left nowrap'>扣除USDT</th>
+            <th class='text-left nowrap'>成功购买NF</th>
+            <th class='text-left nowrap'>成功扣除USDT</th>
+            <th class='text-left nowrap'>状态</th>
+            <th class='text-left nowrap'>添加时间</th>
+            <th class='text-left nowrap'>结束时间</th>
+
+            <!--<th class='text-left nowrap'>操作</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                {if condition="$vo.state eq 1"}
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.id}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.uid|name}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.uid|useraddress}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.num}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.jiage}</span>
+            </td>
+            <td class='text-left nowrap'>
+                <span class="color-desc">{$vo.usdt}</span>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.good_num}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.good_usdt}
+            </td>
+            <td class='text-left nowrap'>
+                {if condition="$vo.status eq 1"}
+                <span style="color:#008800;">进行中</span>
+                {elseif condition="$vo.status eq 2"/}
+                <span style="color:red;">已完成</span>
+                {elseif condition="$vo.status eq 3"}
+                <span>已撤销</span>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.create_at|date="Y-m-d H:i:s"}
+            </td>
+            <td class="text-left nowrap">
+                <!--会员昵称：{$vo.member.nickname|default='<span class="color-desc">未设置会员昵称</span>'|raw}<br>-->
+                {notempty name="$vo.end_time"}
+                {$vo.end_time|date="Y-m-d H:i:s"}
+                {/notempty}
+            </td>
+
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/if}-->
+</form>
+{/block}

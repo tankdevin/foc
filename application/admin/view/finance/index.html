@@ -1,0 +1,147 @@
+{extend name='admin@public/content'}
+
+{block name="button"}
+{/block}
+{block name="content"}
+<!-- 表单搜索 开始 -->
+<form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get">
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">操作</label>
+        <div class="layui-input-inline">
+            <select name="field" class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <!--<option value='username' {eq name="Think.get.field" value="username" }selected{/eq}>会员名</option>-->
+                <option value='name' {eq name="Think.get.name" value="name" }selected{/eq}>会员地址</option>
+                <!--<option value='id' {eq name="Think.get.field" value="id" }selected{/eq}>ID</option>-->
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <input name="address" value="{$Think.get.address|default=''}" placeholder="请输入要查询的内容" class="layui-input">
+        </div>
+        <!--<label class="layui-form-label">其他信息</label>-->
+       <!--<div class="layui-input-inline">-->
+            <!--<input name="content" value="{$Think.get.content|default=''}" placeholder="请输入要查询的内容" class="layui-input">-->
+        <!--</div>-->
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">币种类型</label>
+        <div class="layui-input-inline">
+            <select name="extends"    class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value=''>请选择</option>
+                <option value='account_money' {eq name="Think.get.extends" value="account_money" }selected{/eq}>USDT</option>
+                <option value='account_score' {eq name="Think.get.extends" value="account_score" }selected{/eq}>FOC_矿池</option>
+                <option value='account_foc' {eq name="Think.get.extends" value="account_foc" }selected{/eq}>FOC_交易</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">流水类型</label>
+        <div class="layui-input-inline">
+            <select name="status"  class='layui-select' lay-search="" style="height: 32px;display: block;">
+                <option value=''>请选择</option>
+                <option value='1' {eq name="Think.get.status" value="1" }selected{/eq}>充值</option>
+                <option value='2' {eq name="Think.get.status" value="2" }selected{/eq}>提现</option>
+                <option value='3' {eq name="Think.get.status" value="3" }selected{/eq}>内部转出</option>
+                <option value='4' {eq name="Think.get.status" value="4" }selected{/eq}>内部转入</option>
+                <option value='5' {eq name="Think.get.status" value="5" }selected{/eq}>推荐所得</option>
+                <option value='6' {eq name="Think.get.status" value="6" }selected{/eq}>申购返还</option>
+                <option value='7' {eq name="Think.get.status" value="7" }selected{/eq}>申购所得</option>
+                <option value='8' {eq name="Think.get.status" value="8" }selected{/eq}>矿池支付</option>
+                <option value='9' {eq name="Think.get.status" value="9" }selected{/eq}>矿池返还</option>
+                <option value='10' {eq name="Think.get.status" value="10" }selected{/eq}>交易支付</option>
+                <option value='11' {eq name="Think.get.status" value="11" }selected{/eq}>交易所得</option>
+                <option value='12' {eq name="Think.get.status" value="12" }selected{/eq}>后台调整</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item layui-inline">
+        <label class="layui-form-label">时间</label>
+        <div class="layui-input-inline">
+            <input name="date" id='range-date' value="{$Think.get.date|default=''}"
+                   placeholder="请选择时间" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+    </div>
+</form>
+ <a href="{:url('finance/sqlExcel')} "class="layui-btn layui-btn-primary"><i class="layui-button">&#xe615;</i>导出</a>
+<script>
+    window.laydate.render({range: true, elem: '#range-date'});
+</script>
+<!-- 表单搜索 结束 -->
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    <!--{empty name='list'}-->
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    <!--{else}-->
+    <input type="hidden" value="resort" name="action">
+    <table class="layui-table" lay-skin="line">
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none="" data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>ID</th>
+            <th class='text-left nowrap'>账号</th>
+            <!--<th class='text-left nowrap'>用户名</th>-->
+            <th class='text-left nowrap'>变动前</th>
+            <th class='text-left nowrap'>变动金额</th>
+            <th class='text-left nowrap'>变动后</th>
+            <th class='text-left nowrap'>币种</th>
+            <th class='text-left nowrap'>其他信息</th>
+            <th class='text-left nowrap'>时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.id}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo['uid']|useraddress}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.before*1}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.money*1}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.money+$vo.before|reserved}
+            </td>
+            <td class='text-left nowrap'>
+                {if condition="$vo.type eq 'account_money'"}
+                <span class="color-red">USDT</span>
+                {elseif condition="$vo.type eq 'account_score'"}
+                <span class="color-green">FOC_矿池</span>
+                {elseif condition="$vo.type eq 'account_foc'"}
+                <span class="color-green">FOC_交易</span>
+                {elseif condition="$vo.type eq 'usdt_suo'"}
+                <span class="color-blue">冻结USDT</span>
+                {/if}
+                <!--{$vo.type}-->
+            </td>
+            <td class='text-left nowrap'>
+               {$vo.content}
+               <!--订单ID:{$vo.orderId}-->
+            </td>
+            <td class='text-left nowrap'>
+               {$vo.create_time|date="Y-m-d H:i:s"}
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page|raw}</p>{/if}
+    <!--{/empty}-->
+</form>
+{/block}

@@ -1,0 +1,62 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true" method="post">
+    {empty name="$info['id']"} 
+    {else/}
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户ID</label>
+            <div class="layui-input-block">
+                <input name="id"  value="{$info['id']|default=''}"  readonly="readonly" required="required"  class="layui-input layui-disabled">  
+            </div>
+        </div>
+    {/empty}
+    <div class="layui-form-item">
+        <label class="layui-form-label">充值用户</label>
+        <div class="layui-input-block">
+            {empty name="$info['id']"}
+            {else/}
+                <input name="userid"  value="{$info['uid']|userinfo|default=''}"  readonly="readonly" required="required"  class="layui-input layui-disabled">
+            {/empty}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">操作类型</label>
+        <div class='layui-input-block' id="danxuan">
+            <label class="think-radio">
+                <input  type="radio"  name="typemm" value="1" lay-ignore>确认充值
+            </label>
+            <label class="think-radio">
+                <input  type="radio"  name="typemm" value="2" lay-ignore> 拒绝充值
+            </label>
+        </div>
+    </div>
+    <script>
+        $("#danxuan input[name=typemm]").click(function(){
+            if($(this).val() == 1){
+                $("div[data-form-type=repassword]").hide();
+            }else if($(this).val() == 2){
+                $("div[data-form-type=repassword]").show();
+            }else{
+                $("div[data-form-type=repassword]").hide();
+            }
+        })
+    </script>
+    <div class="layui-form-item" data-form-type="repassword" style="display: none;">
+        <label class="layui-form-label">拒绝原因</label>
+        <div class="layui-input-block">
+            <div style="position:relative">
+                <textarea name="content">{$info.content|default=''}</textarea>
+                <script>
+                    require(['ckeditor'], function () {
+                        var editor = window.createEditor('[name="content"]');
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        {if isset($info['id'])}<input type='hidden' value='{$info.id}' name='id'>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

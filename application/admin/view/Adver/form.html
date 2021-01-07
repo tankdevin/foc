@@ -1,0 +1,61 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true" method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">广告级别</label>
+        <div class="layui-input-block">
+            <input  name="title" value='{$vo.title|default=""}' required="required" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">广告受限用户级别</label>
+        <div class="layui-input-block">
+            <div>
+                <select name="user_level" class="layui-select">
+                    {volist name='user_level' id='vi'}
+                    <option {if condition="$vo.user_level eq $vi.id"}selected="selected"{/if}value="{$vi.id}">{$vi.title}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">基数</label>
+        <div class="layui-input-block">
+            <input  name="jishu" type="number" value='{$vo.jishu|default="0"}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">每小时产出收益</label>
+        <div class="layui-input-block">
+            <input  name="income" type="number" value='{$vo.income|default="0"}' required="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">抢购范围</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="number" name="min_grab_time" placeholder="当前区块可抢购范围(小时)" value="{$vo.min_grab_time|default=''}" required="required" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="number" name="max_grab_time" placeholder="当前区块可抢购范围(小时)" value="{$vo.max_grab_time|default=''}" required="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序(越小越靠前)</label>
+        <div class="layui-input-block">
+            <input  name="sort" type="number" value='{$vo.sort|default="0"}' required="required" class="layui-input">
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'>{/if}
+        <button class="layui-btn" type='button'>保存数据</button>
+    </div>
+    <script>window.form.render();</script>
+</form>

@@ -1,0 +1,39 @@
+<form autocomplete="off" class="layui-form layui-box modal-form-box" action="{:request()->url()}" data-auto="true"
+      method="post">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-block">
+            <input name="title" value='{$vo.title|default=""}' required="required" title="名称不能为空" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">赠送数量(PDR)</label>
+        <div class="layui-input-block">
+            <input name="num" value='{$vo.num|default=""}' required="required" title="赠送数量" class="layui-input">
+        </div>
+    </div>
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">中奖几率(100)</label>-->
+        <!--<div class="layui-input-block">-->
+            <!--<input name="gailv" value='{$vo.gailv|default=""}' required="required" title="中奖几率" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="hr-line-dashed"></div>
+
+    <div class="layui-form-item text-center">
+        {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'>{/if}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+</form>
+<script>
+    laydate.render({
+        elem: '#test14'
+        ,type: 'time'
+        ,range: true
+    });
+</script>
